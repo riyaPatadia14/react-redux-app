@@ -37,6 +37,9 @@ const BankBalance = () => {
   const [input, setInput] = useState([]);
 
   const dispatch = useDispatch();
+  
+  const getData = useSelector((state) => state);
+  console.log("getData", getData);
   const editData = useSelector((state) => state?.BankBalance);
   // console.log(
   //   "editData",
@@ -88,7 +91,7 @@ const BankBalance = () => {
         >
           <Toolbar />
           <Box sx={{ overflow: "auto" }}>
-            <List></List>
+            
             <Divider />
             <List>
               {MaterialIconic.map((text) => (
@@ -124,37 +127,37 @@ const BankBalance = () => {
                 </TableHead>
                 <TableBody>
                   {
-                    input && input.length >= 0 ? (
-                      "false"
-                    ) : (
-                      // input?.map((x) => (
+                    // input && input.length >= 0 ? (
+                    //   "false"
+                    // ) : (
+                      editData?.map((x) => (
                       <TableRow
-                        key={input.FullName}
+                        key={x?.FullName}
                         sx={{
                           "&:last-child td, &:last-child th": { border: 0 },
                         }}
                       >
-                        <TableCell component="th" scope="row">
-                          {input.id}
+                        <TableCell component="th" scope="row" name="id">
+                          {x?.id}
                         </TableCell>
-                        <TableCell align="center">{input.FullName}</TableCell>
-                        <TableCell align="center">{input.AccountNo}</TableCell>
+                        <TableCell align="center" name="FullName">{x?.FullName}</TableCell>
+                        <TableCell align="center" name="AccountNo">{x?.AccountNo}</TableCell>
                         <TableCell align="center">
                           <TextField
                             hiddenLabel
                             id=""
                             name="BankBalance"
-                            value={input.BankBalance}
+                            value={x?.BankBalance}
                             onChange={onField}
                             variant="filled"
                             size="small"
                           />
                         </TableCell>
-                        <TableCell align="center">
-                          {input.AccountType}
+                        <TableCell align="center" name="AccountType">
+                          {x?.AccountType}
                         </TableCell>
-                        <TableCell align="center">
-                          {input.TransactionType}
+                        <TableCell align="center" name="TransactionType">
+                          {x?.TransactionType}
                         </TableCell>
                         <TableCell align="center">
                           <Button
@@ -166,8 +169,8 @@ const BankBalance = () => {
                         </TableCell>
                       </TableRow>
                     )
-                    // ))
-                  }
+                    )}
+                    
                 </TableBody>
               </Table>
             </TableContainer>

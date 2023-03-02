@@ -49,14 +49,14 @@ const BankDetail = () => {
   useEffect(() => {
     handleGetRequest();
   }, []);
-  const data = useSelector((state) => state);
-  console.log("data", data);
+  const getData = useSelector((state) => state);
+  console.log("getData", getData);
 
   // handleCheckEvent
   const handleCheckEvent = (event, row) => {
     console.log("row", row);
     dispatch(onAppend(event, row));
-    console.log(dispatch(onAppend(event, row)));
+    console.log("event",event);
   };
 
   // checkbox
@@ -119,9 +119,10 @@ const BankDetail = () => {
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    <TableCell>
-                      <Checkbox {...label} />
-                    </TableCell>
+                    {/* <TableCell>
+                      <Checkbox {...label} 
+                      />
+                    </TableCell> */}
                     <TableCell>Id</TableCell>
                     <TableCell align="center">Full Name</TableCell>
                     <TableCell align="center">Account No</TableCell>
@@ -140,7 +141,7 @@ const BankDetail = () => {
                         <Checkbox
                           name="checked"
                           {...label}
-                          value={row}
+                          // value={row}
                           id="checked"
                           onChange={(e) => handleCheckEvent(e, row)}
                         />
