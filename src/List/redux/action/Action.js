@@ -1,3 +1,13 @@
+export const onAppend = (e, o) => {
+  console.log("o", o);
+  return {
+    type: "onAppend",
+    payload: {
+      e,
+      o,
+    },
+  };
+};
 export const onCheck = (e) => {
   console.log("e", e);
   return {
@@ -7,8 +17,15 @@ export const onCheck = (e) => {
 };
 
 export const onAccept = (id) => {
+  console.log("onAccept", id);
   return {
     type: "onAccept",
+    payload: id,
+  };
+};
+export const onUnCheck = (id) => {
+  return {
+    type: "onUnCheck",
     payload: id,
   };
 };

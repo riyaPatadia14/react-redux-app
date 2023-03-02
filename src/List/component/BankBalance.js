@@ -28,30 +28,34 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 // redux
 import { useDispatch, useSelector } from "react-redux";
-import { onAccept } from "../redux/action/Action";
+import { onCheck } from "../redux/action/Action";
 
 const drawerWidth = 240;
 
 const BankBalance = () => {
   // table
   const [input, setInput] = useState([]);
-  // function Row() {
-  //   const { row } = props;
-  //   const [open, setOpen] = React.useState(false);
+
   const dispatch = useDispatch();
   const editData = useSelector((state) => state?.BankBalance);
-  console.log(editData);
+  // console.log(
+  //   "editData",
+  //   editData?.map((x) => x.FullName)
+  // );
   useEffect(() => {
     console.log("UseEffect Data ", editData);
-
     setInput(editData);
-    console.log("input", input);
   }, [editData]);
+  console.log("editData", editData);
 
   const handleFieldValueUpdate = () => {
-    dispatch(onAccept(input));
+    dispatch(onCheck(input));
   };
-
+  const onField = (e) => {
+    console.log("name", e.target.name);
+    console.log("value", e.target.value);
+    setInput({ ...input, [e.target.name]: e.target.value });
+  };
   const MaterialIconic = [
     { item: "Bank Details", link: "/", icon: TableViewIcon },
     { item: "Bank Balance", link: "", icon: AccountBalanceIcon },
@@ -120,10 +124,10 @@ const BankBalance = () => {
                 </TableHead>
                 <TableBody>
                   {
-                    input && input.length == 0 ? (
+                    input && input.length >= 0 ? (
                       "false"
                     ) : (
-                      // input..map((x) => (
+                      // input?.map((x) => (
                       <TableRow
                         key={input.FullName}
                         sx={{
@@ -136,7 +140,15 @@ const BankBalance = () => {
                         <TableCell align="center">{input.FullName}</TableCell>
                         <TableCell align="center">{input.AccountNo}</TableCell>
                         <TableCell align="center">
-                          {input.BankBalance}
+                          <TextField
+                            hiddenLabel
+                            id=""
+                            name="BankBalance"
+                            value={input.BankBalance}
+                            onChange={onField}
+                            variant="filled"
+                            size="small"
+                          />
                         </TableCell>
                         <TableCell align="center">
                           {input.AccountType}
@@ -145,7 +157,12 @@ const BankBalance = () => {
                           {input.TransactionType}
                         </TableCell>
                         <TableCell align="center">
-                          <Button variant="contained">Update</Button>
+                          <Button
+                            variant="contained"
+                            onClick={() => handleFieldValueUpdate()}
+                          >
+                            Update
+                          </Button>
                         </TableCell>
                       </TableRow>
                     )
