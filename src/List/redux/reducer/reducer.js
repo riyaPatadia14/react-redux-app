@@ -1,50 +1,79 @@
+import BankBalance from "../../component/BankBalance";
+
 const initialState = {
   BankBalance: [],
   count: 0,
 };
-const reducer = (state = initialState, action = {}) => {
+const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "onCheck": {
       let e = action.payload;
-      console.log("eaaaaaaaaa", e)
+      console.log("eaaaaaaaaa", e);
+      console.log(
+        "arr",
+        state.BankBalance.filter((c, index) => {
+          return state.BankBalance.indexOf(c) !== index;
+        })
+      );
       return {
         ...state,
         BankBalance: e,
-        
       };
     }
     case "onAccept":
-      const onChange = state?.BankBalance?.map((x) => {
-        if (x.id == action.payload.id) {
-          return (x = action.payload);
-        }
+      // const onChange = state?.BankBalance?.map((x) => {
+      //   if (x.id == action.payload.id) {
+      //     console.log("action.payload", action.payload);
+      //     return (x = action.payload);
+      //   }
+      //   // debugger;
+      //   console.log("value", x);
+      //   return x;
+      // });
+      // console.log(" Update in reducer", onChange);
+      const xyz = state?.BankBalance?.map((x) => {
         // debugger;
-        console.log("value", x);
-
-        return x;
+        if (!x == action.payload) {
+          return x;
+        }
       });
-      console.log(" Update in reducer", onChange);
+      const v = state.BankBalance.map((x) => {
+        x.filter((t) => t.id == action.payload);
+      });
+      console.log("v", v);
       return {
         ...state,
-        BankBalance: onChange,
+        BankBalance: !xyz.BankBalance,
       };
     case "onAppend":
-      // debugger;
-      const { e, o } = action.payload;
-      // let o = action.payload;
-      console.log("o", o);
-      console.log(action.payload);
-      console.log("count12", state);
+      const { o } = action.payload;
+      console.log("BankBalance", state.BankBalance);
+      console.log("o.id :-", o.id);
+      const filterData = state.BankBalance.filter((val) => val.id == o.id);
+      console.log("filterData :-", filterData);
       return {
         ...state,
-        BankBalance: [...state.BankBalance, { e: e, o: o }],
-        // count: state.count + 1,
+        BankBalance: [...state.BankBalance, o],
       };
+
     case "onUnCheck":
-      const dispatchUnCheck = state?.BankBalance?.filter(
-        (x) => x.id !== action.id
+      console.log(
+        "state?.BankBalance",
+        state?.BankBalance?.filter((x) => x !== action.payload)
       );
-      
+      console.log("action.id", action.payload.id);
+      const dispatchUnCheck = [
+        ...state?.BankBalance?.filter((id) => id !== action.payload.id),
+      ];
+      console.log(
+        "purple",
+        state?.BankBalance.map((x) => x.id)
+      );
+      console.log("red dispatchUnCheck :", dispatchUnCheck);
+      console.log(
+        "event: action.payload.event (filter):",
+        action.payload.event
+      );
       return {
         ...state,
         BankBalance: dispatchUnCheck,

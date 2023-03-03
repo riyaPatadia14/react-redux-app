@@ -28,7 +28,7 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 // redux
 import { useDispatch, useSelector } from "react-redux";
-import { onAppend } from "../redux/action/Action";
+import { onAppend, onUnCheck } from "../redux/action/Action";
 // axios
 import axios from "axios";
 import Checkbox from "@mui/material/Checkbox";
@@ -36,7 +36,6 @@ const drawerWidth = 240;
 
 const BankDetail = () => {
   const [rows, setRows] = useState([]);
-  const [isChecked, setIsChecked] = useState("");
   const dispatch = useDispatch();
   // get api
   const handleGetRequest = () => {
@@ -55,8 +54,20 @@ const BankDetail = () => {
   // handleCheckEvent
   const handleCheckEvent = (event, row) => {
     console.log("row", row);
-    dispatch(onAppend(event, row));
-    console.log("event",event);
+    const checked = event.target.checked;
+    if (checked == true) {
+      dispatch(onAppend(event, row));
+      console.log("checked", checked);
+      console.log("true: checked -", row);
+    } else if (checked == false) {
+      console.log("event", event);
+      console.log("row", row);
+      console.log();
+      dispatch(onUnCheck(event, row));
+      console.log("false: checked - ", row);
+    }
+
+    console.log("event", event);
   };
 
   // checkbox
@@ -119,10 +130,9 @@ const BankDetail = () => {
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    {/* <TableCell>
-                      <Checkbox {...label} 
-                      />
-                    </TableCell> */}
+                    <TableCell>
+                      <Checkbox {...label} />
+                    </TableCell>
                     <TableCell>Id</TableCell>
                     <TableCell align="center">Full Name</TableCell>
                     <TableCell align="center">Account No</TableCell>
@@ -141,7 +151,6 @@ const BankDetail = () => {
                         <Checkbox
                           name="checked"
                           {...label}
-                          // value={row}
                           id="checked"
                           onChange={(e) => handleCheckEvent(e, row)}
                         />

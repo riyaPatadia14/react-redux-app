@@ -23,9 +23,12 @@ export const onAccept = (id) => {
     payload: id,
   };
 };
-export const onUnCheck = (id) => {
+export const onUnCheck = (event, id) => {
   return {
     type: "onUnCheck",
-    payload: id,
+    payload: {
+      event,
+      id,
+    },
   };
 };

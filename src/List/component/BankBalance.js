@@ -28,33 +28,27 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 // redux
 import { useDispatch, useSelector } from "react-redux";
-import { onCheck } from "../redux/action/Action";
+import { onAccept } from "../redux/action/Action";
 
 const drawerWidth = 240;
 
 const BankBalance = () => {
   // table
   const [input, setInput] = useState([]);
-
   const dispatch = useDispatch();
-  
-  const getData = useSelector((state) => state);
-  console.log("getData", getData);
   const editData = useSelector((state) => state?.BankBalance);
-  // console.log(
-  //   "editData",
-  //   editData?.map((x) => x.FullName)
-  // );
   useEffect(() => {
+    // debugger;
     console.log("UseEffect Data ", editData);
     setInput(editData);
   }, [editData]);
   console.log("editData", editData);
 
   const handleFieldValueUpdate = () => {
-    dispatch(onCheck(input));
+    dispatch(onAccept(input));
   };
   const onField = (e) => {
+    // debugger;
     console.log("name", e.target.name);
     console.log("value", e.target.value);
     setInput({ ...input, [e.target.name]: e.target.value });
@@ -91,7 +85,7 @@ const BankBalance = () => {
         >
           <Toolbar />
           <Box sx={{ overflow: "auto" }}>
-            
+            <List></List>
             <Divider />
             <List>
               {MaterialIconic.map((text) => (
@@ -130,33 +124,31 @@ const BankBalance = () => {
                     // input && input.length >= 0 ? (
                     //   "false"
                     // ) : (
-                      editData?.map((x) => (
+                    editData?.map((x) => (
                       <TableRow
                         key={x?.FullName}
                         sx={{
                           "&:last-child td, &:last-child th": { border: 0 },
                         }}
                       >
-                        <TableCell component="th" scope="row" name="id">
+                        <TableCell component="th" scope="row">
                           {x?.id}
                         </TableCell>
-                        <TableCell align="center" name="FullName">{x?.FullName}</TableCell>
-                        <TableCell align="center" name="AccountNo">{x?.AccountNo}</TableCell>
+                        <TableCell align="center">{x?.FullName}</TableCell>
+                        <TableCell align="center">{x?.AccountNo}</TableCell>
                         <TableCell align="center">
                           <TextField
                             hiddenLabel
                             id=""
                             name="BankBalance"
-                            value={x?.BankBalance}
+                            defaultValue={x?.BankBalance}
                             onChange={onField}
                             variant="filled"
                             size="small"
                           />
                         </TableCell>
-                        <TableCell align="center" name="AccountType">
-                          {x?.AccountType}
-                        </TableCell>
-                        <TableCell align="center" name="TransactionType">
+                        <TableCell align="center">{x?.AccountType}</TableCell>
+                        <TableCell align="center">
                           {x?.TransactionType}
                         </TableCell>
                         <TableCell align="center">
@@ -168,9 +160,8 @@ const BankBalance = () => {
                           </Button>
                         </TableCell>
                       </TableRow>
-                    )
-                    )}
-                    
+                    ))
+                  }
                 </TableBody>
               </Table>
             </TableContainer>
