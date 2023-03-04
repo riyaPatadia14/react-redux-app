@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import AppBar from "@mui/material/AppBar";
@@ -16,14 +16,35 @@ import Person3Icon from "@mui/icons-material/Person3";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import TableViewIcon from "@mui/icons-material/TableView";
 import { Link } from "react-router-dom";
+// menu
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import { Checkbox } from "@mui/material";
+
 const drawerWidth = 240;
 
 const NewCustomer = () => {
+  // checkbox event
+  const [onTouch, setOnTouch] = useState(true);
+
   const MaterialIconic = [
     { item: "Bank Details", link: "/", icon: TableViewIcon },
     { item: "Bank Balance", link: "/bankbalance", icon: AccountBalanceIcon },
     { item: "New Customer", link: "", icon: Person3Icon },
   ];
+  // menu start
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  // menu end
   return (
     <div>
       <Box sx={{ display: "flex" }}>
@@ -71,6 +92,28 @@ const NewCustomer = () => {
         </Drawer>
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <Toolbar />
+          <div>
+            <Checkbox
+              id="basic-button"
+              aria-controls={open ? "basic-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
+              onMouseEnter={handleClick}
+            />
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+                "aria-labelledby": "basic-button",
+              }}
+            >
+              <MenuItem onClick={handleClose}>Profile</MenuItem>
+              <MenuItem onClick={handleClose}>My account</MenuItem>
+              <MenuItem onClick={handleClose}>Logout</MenuItem>
+            </Menu>
+          </div>
           <Typography paragraph>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus

@@ -1,5 +1,3 @@
-import BankBalance from "../../component/BankBalance";
-
 const initialState = {
   BankBalance: [],
   count: 0,
@@ -49,13 +47,27 @@ const reducer = (state = initialState, action) => {
       const { o } = action.payload;
       console.log("BankBalance", state.BankBalance);
       console.log("o.id :-", o.id);
-      const filterData = state.BankBalance.filter((val) => val.id == o.id);
-      console.log("filterData :-", filterData);
+      console.log(
+        "define state 11:",
+        state.BankBalance.map(
+          (x) => x.id == o.id,
+          console.log("o: map state 111:", o)
+        )
+      );
+      // console.log(
+      //   "define state 22",
+      //   state.BankBalance.map((x) => x.id !== o.id),
+      //   console.log("o: map state 2222: ", o)
+      // );
+      if (state.BankBalance.map((x) => x.id !== o.id)) {
+        console.log("yes");
+      } else if (state.BankBalance.map((x) => x.id == o.id)) {
+        console.log("duplication not");
+      }
       return {
         ...state,
         BankBalance: [...state.BankBalance, o],
       };
-
     case "onUnCheck":
       console.log(
         "state?.BankBalance",

@@ -32,8 +32,6 @@ import { onAppend, onUnCheck } from "../redux/action/Action";
 // axios
 import axios from "axios";
 import Checkbox from "@mui/material/Checkbox";
-// alert
-import Alert from "@mui/material/Alert";
 const drawerWidth = 240;
 
 const BankDetail = () => {
@@ -64,15 +62,18 @@ const BankDetail = () => {
   const handleCheckEvent = (event, row) => {
     console.log("row", row);
     const checked = event.target.checked;
-    const found = alreadyChecked.filter((x) => x.id === row.id);
-    if (found.length === 0) {
+    if (checked == true) {
       dispatch(onAppend(event, row));
+      console.log("checked", checked);
+      console.log("true: checked -", row);
     } else if (checked == false) {
+      console.log("event", event);
+      console.log("row", row);
+      console.log();
       dispatch(onUnCheck(event, row));
       console.log("false: checked - ", row);
-    } else {
-      alert("Already exists");
     }
+
     console.log("event", event);
   };
 
@@ -157,16 +158,16 @@ const BankDetail = () => {
                         <Checkbox
                           name="checked"
                           {...label}
-                          // style={{
-                          //   color:
-                          //     checkboxColor &&
-                          //     checkboxColor.length > 0 &&
-                          //     checkboxColor?.find((a) => a.id == row.id)
-                          //       ? "blue"
-                          //       : "grey",
-                          // }}
+                          style={{
+                            color:
+                              checkboxColor &&
+                              checkboxColor.length > 0 &&
+                              checkboxColor?.find((a) => a.id == row.id)
+                                ? "blue"
+                                : false,
+                          }}
                           id="checked"
-                          onClick={(e) => handleCheckEvent(e, row)}
+                          onMouseOver={(e) => handleCheckEvent(e, row)}
                         />
                       </TableCell>
                       <TableCell component="th" scope="row" name="id">
