@@ -8,11 +8,11 @@ export const onAppend = (e, o) => {
     },
   };
 };
-export const onCheck = (e) => {
+export const onCheck = (e, id) => {
   console.log("e", e);
   return {
     type: "onCheck",
-    payload: e,
+    payload: id,
   };
 };
 

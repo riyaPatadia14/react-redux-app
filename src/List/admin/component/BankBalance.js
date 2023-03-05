@@ -28,24 +28,30 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 // redux
 import { useDispatch, useSelector } from "react-redux";
-import { onAccept } from "../redux/action/Action";
-
+import { onAccept } from "../../redux/action/Action";
+// skeleton
+// import Box from '@mui/material/Box';
+import Skeleton from "@mui/material/Skeleton";
 const drawerWidth = 240;
 
 const BankBalance = () => {
   // table
   const [input, setInput] = useState([]);
   const dispatch = useDispatch();
-  const editData = useSelector((state) => state?.BankBalance);
+  const addData = useSelector((state) => state?.BankBalance);
+  const editData = useSelector((state) => state?.Deposit);
+  console.log("editData 1", editData);
   useEffect(() => {
     // debugger;
     console.log("UseEffect Data ", editData);
     setInput(editData);
   }, [editData]);
-  console.log("editData", editData);
+  // console.log("editData", editData);
 
   const handleFieldValueUpdate = () => {
+    // debugger;
     dispatch(onAccept(input));
+    console.log("handleFieldValueUpdate: ", dispatch(onAccept(input)));
   };
   const onField = (e) => {
     // debugger;
@@ -107,6 +113,9 @@ const BankBalance = () => {
           <Toolbar />
           <div>
             <TableContainer component={Paper}>
+              {/* {addData && addData.length == 0 ? (
+                "Loading..."
+              ) : ( */}
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
@@ -120,50 +129,46 @@ const BankBalance = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {
-                    // input && input.length >= 0 ? (
-                    //   "false"
-                    // ) : (
-                    editData?.map((x) => (
-                      <TableRow
-                        key={x?.FullName}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                        }}
-                      >
-                        <TableCell component="th" scope="row">
-                          {x?.id}
-                        </TableCell>
-                        <TableCell align="center">{x?.FullName}</TableCell>
-                        <TableCell align="center">{x?.AccountNo}</TableCell>
-                        <TableCell align="center">
-                          <TextField
-                            hiddenLabel
-                            id=""
-                            name="BankBalance"
-                            defaultValue={x?.BankBalance}
-                            onChange={onField}
-                            variant="filled"
-                            size="small"
-                          />
-                        </TableCell>
-                        <TableCell align="center">{x?.AccountType}</TableCell>
-                        <TableCell align="center">
-                          {x?.TransactionType}
-                        </TableCell>
-                        <TableCell align="center">
-                          <Button
-                            variant="contained"
-                            onClick={() => handleFieldValueUpdate()}
-                          >
-                            Update
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    ))
-                  }
+                  {addData?.map((row) => (
+                    <TableRow
+                      key={row?.FullName}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                      }}
+                    >
+                      <TableCell component="th" scope="row">
+                        {row?.id}
+                      </TableCell>
+                      <TableCell align="center">{row?.FullName}</TableCell>
+                      <TableCell align="center">{row?.AccountNo}</TableCell>
+                      <TableCell align="center">
+                        <TextField
+                          hiddenLabel
+                          id=""
+                          name="BankBalance"
+                          defaultValue={row?.BankBalance}
+                          onChange={onField}
+                          variant="filled"
+                          size="small"
+                        />
+                      </TableCell>
+                      <TableCell align="center">{row?.AccountType}</TableCell>
+                      <TableCell align="center">
+                        {row?.TransactionType}
+                      </TableCell>
+                      <TableCell align="center">
+                        <Button
+                          variant="contained"
+                          onClick={() => handleFieldValueUpdate(row)}
+                        >
+                          Update
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
                 </TableBody>
               </Table>
+              {/* )} */}
             </TableContainer>
           </div>
         </Box>

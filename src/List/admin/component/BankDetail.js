@@ -28,12 +28,14 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 // redux
 import { useDispatch, useSelector } from "react-redux";
-import { onAppend, onUnCheck } from "../redux/action/Action";
+import { onAppend, onUnCheck, onCheck } from "../../redux/action/Action";
 // axios
 import axios from "axios";
 import Checkbox from "@mui/material/Checkbox";
 // alert
 import Alert from "@mui/material/Alert";
+// cust registration
+import HowToRegIcon from "@mui/icons-material/HowToReg";
 const drawerWidth = 240;
 
 const BankDetail = () => {
@@ -65,7 +67,8 @@ const BankDetail = () => {
     console.log("row", row);
     const checked = event.target.checked;
     const found = alreadyChecked.filter((x) => x.id === row.id);
-    if (found.length === 0) {
+    if (found.length === 0 && checked == true) {
+      dispatch(onCheck(event, row));
       dispatch(onAppend(event, row));
     } else if (checked == false) {
       dispatch(onUnCheck(event, row));
@@ -83,6 +86,7 @@ const BankDetail = () => {
     { item: "Bank Details", link: "", icon: TableViewIcon },
     { item: "Bank Balance", link: "/bankbalance", icon: AccountBalanceIcon },
     { item: "New Customer", link: "/newcustomer", icon: Person3Icon },
+    { item: "Registration", link: "/Registration", icon: HowToRegIcon },
   ];
   return (
     <div>

@@ -1,86 +1,22 @@
 const initialState = {
   BankBalance: [],
+  Deposit: [],
   count: 0,
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case "onCheck": {
-      let e = action.payload;
-      console.log("eaaaaaaaaa", e);
-      console.log(
-        "arr",
-        state.BankBalance.filter((c, index) => {
-          return state.BankBalance.indexOf(c) !== index;
-        })
-      );
-      return {
-        ...state,
-        BankBalance: e,
-      };
-    }
-    case "onAccept":
-      // const onChange = state?.BankBalance?.map((x) => {
-      //   if (x.id == action.payload.id) {
-      //     console.log("action.payload", action.payload);
-      //     return (x = action.payload);
-      //   }
-      //   // debugger;
-      //   console.log("value", x);
-      //   return x;
-      // });
-      // console.log(" Update in reducer", onChange);
-      const xyz = state?.BankBalance?.map((x) => {
-        // debugger;
-        if (!x == action.payload) {
-          return x;
-        }
-      });
-      const v = state.BankBalance.map((x) => {
-        x.filter((t) => t.id == action.payload);
-      });
-      console.log("v", v);
-      return {
-        ...state,
-        BankBalance: !xyz.BankBalance,
-      };
     case "onAppend":
+      // add
       const { o } = action.payload;
-      console.log("BankBalance", state.BankBalance);
-      console.log("o.id :-", o.id);
-      console.log(
-        "define state 11:",
-        state.BankBalance.map(
-          (x) => x.id == o.id,
-          console.log("o: map state 111:", o)
-        )
-      );
-      // console.log(
-      //   "define state 22",
-      //   state.BankBalance.map((x) => x.id !== o.id),
-      //   console.log("o: map state 2222: ", o)
-      // );
-      if (state.BankBalance.map((x) => x.id !== o.id)) {
-        console.log("yes");
-      } else if (state.BankBalance.map((x) => x.id == o.id)) {
-        console.log("duplication not");
-      }
       return {
         ...state,
         BankBalance: [...state.BankBalance, o],
       };
     case "onUnCheck":
-      console.log(
-        "state?.BankBalance",
-        state?.BankBalance?.filter((x) => x !== action.payload)
-      );
       console.log("action.id", action.payload.id);
       const dispatchUnCheck = [
         ...state?.BankBalance?.filter((id) => id !== action.payload.id),
       ];
-      console.log(
-        "purple",
-        state?.BankBalance.map((x) => x.id)
-      );
       console.log("red dispatchUnCheck :", dispatchUnCheck);
       console.log(
         "event: action.payload.event (filter):",
@@ -89,6 +25,31 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         BankBalance: dispatchUnCheck,
+      };
+    case "onCheck": {
+      const id = action.payload;
+      console.log("onCheck", id);
+      return {
+        ...state,
+        Deposit: id,
+      };
+    }
+    case "onAccept":
+      // debugger;
+      const id = action.payload.id;
+      console.log("id", id);
+      const onChange = state.BankBalance.map((x) => {
+        if (x.id == action.payload.id) {
+          console.log("x = payload", (x = action.payload));
+          return (x = action.payload);
+        }
+        console.log("re x:", x);
+        return x;
+      });
+      console.log("BankBalance", state.BankBalance);
+      return {
+        ...state,
+        BankBalance: onChange,
       };
     default:
       return state;
