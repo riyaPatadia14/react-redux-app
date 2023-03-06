@@ -11,11 +11,14 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import TextField from "@mui/material/TextField";
+// import TextField from "@mui/material/TextField";
 // material icon
 import Person3Icon from "@mui/icons-material/Person3";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import TableViewIcon from "@mui/icons-material/TableView";
+import HowToRegIcon from "@mui/icons-material/HowToReg";
+import LogoutIcon from "@mui/icons-material/Logout";
+// route
 import { Link } from "react-router-dom";
 // table
 import Table from "@mui/material/Table";
@@ -25,17 +28,18 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import Button from "@mui/material/Button";
+import Fingerprint from "@mui/icons-material/Fingerprint";
+// import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
 // redux
 import { useDispatch, useSelector } from "react-redux";
-import { onAppend, onUnCheck, onCheck } from "../../redux/action/Action";
+import { onAppend, onUnCheck, onCheck } from "../redux/action/Action";
 // axios
 import axios from "axios";
 import Checkbox from "@mui/material/Checkbox";
 // alert
-import Alert from "@mui/material/Alert";
-// cust registration
-import HowToRegIcon from "@mui/icons-material/HowToReg";
+// import Alert from "@mui/material/Alert";
+
 const drawerWidth = 240;
 
 const BankDetail = () => {
@@ -83,10 +87,10 @@ const BankDetail = () => {
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
   const MaterialIconic = [
+    // { item: "Registration", link: "/registration", icon: HowToRegIcon },
     { item: "Bank Details", link: "", icon: TableViewIcon },
     { item: "Bank Balance", link: "/bankbalance", icon: AccountBalanceIcon },
     { item: "New Customer", link: "/newcustomer", icon: Person3Icon },
-    { item: "Registration", link: "/Registration", icon: HowToRegIcon },
   ];
   return (
     <div>
@@ -100,6 +104,13 @@ const BankDetail = () => {
             <Typography variant="h6" noWrap component="div">
               SBI Bank
             </Typography>
+            <Link to="/registration">
+              <HowToRegIcon />
+            </Link>
+
+            <IconButton aria-label="fingerprint" color="secondary">
+              <Fingerprint onMouseEnter={() => console.log("sign out")} />
+            </IconButton>
           </Toolbar>
         </AppBar>
         <Drawer
@@ -149,6 +160,7 @@ const BankDetail = () => {
                     <TableCell align="center">Bank Balance</TableCell>
                     <TableCell align="center">Account Type</TableCell>
                     <TableCell align="center">Transaction Type</TableCell>
+                    <TableCell align="center">Customer Id</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -183,6 +195,7 @@ const BankDetail = () => {
                       <TableCell align="center">
                         {row?.TransactionType}
                       </TableCell>
+                      <TableCell align="center">{row?.CustomerId}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

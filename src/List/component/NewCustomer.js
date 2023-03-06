@@ -17,16 +17,22 @@ import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import TableViewIcon from "@mui/icons-material/TableView";
 import { Link } from "react-router-dom";
 // menu
-import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { Checkbox } from "@mui/material";
-
+// table
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 const drawerWidth = 240;
 
 const NewCustomer = () => {
-  // checkbox event
-  const [onTouch, setOnTouch] = useState(true);
+  // useState
+  const [newCust, setNewCust] = useState([]);
 
   const MaterialIconic = [
     { item: "Bank Details", link: "/", icon: TableViewIcon },
@@ -114,6 +120,37 @@ const NewCustomer = () => {
               <MenuItem onClick={handleClose}>Logout</MenuItem>
             </Menu>
           </div>
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Id</TableCell>
+                  <TableCell>FullName</TableCell>
+                  <TableCell align="right">Account No</TableCell>
+                  <TableCell align="right">Bank Balance</TableCell>
+                  <TableCell align="right">Account Type</TableCell>
+                  <TableCell align="right">Transaction Type</TableCell>
+                  <TableCell>Customer Id</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {newCust.map((row) => (
+                  <TableRow
+                    key={row.name}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {row.name}
+                    </TableCell>
+                    <TableCell align="right">{row.calories}</TableCell>
+                    <TableCell align="right">{row.fat}</TableCell>
+                    <TableCell align="right">{row.carbs}</TableCell>
+                    <TableCell align="right">{row.protein}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
           <Typography paragraph>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus

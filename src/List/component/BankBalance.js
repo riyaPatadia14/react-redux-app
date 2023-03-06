@@ -28,7 +28,7 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 // redux
 import { useDispatch, useSelector } from "react-redux";
-import { onAccept } from "../../redux/action/Action";
+import { onAccept } from "../redux/action/Action";
 // skeleton
 // import Box from '@mui/material/Box';
 import Skeleton from "@mui/material/Skeleton";
@@ -60,7 +60,7 @@ const BankBalance = () => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
   const MaterialIconic = [
-    { item: "Bank Details", link: "/", icon: TableViewIcon },
+    { item: "Bank Details", link: "/bankdetail", icon: TableViewIcon },
     { item: "Bank Balance", link: "", icon: AccountBalanceIcon },
     { item: "New Customer", link: "/newcustomer", icon: Person3Icon },
   ];
