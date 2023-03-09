@@ -1,22 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import AppBar from "@mui/material/AppBar";
-import CssBaseline from "@mui/material/CssBaseline";
 import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import TextField from "@mui/material/TextField";
 // material icon
 import Person3Icon from "@mui/icons-material/Person3";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import TableViewIcon from "@mui/icons-material/TableView";
-import { Link } from "react-router-dom";
 // table
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -32,7 +21,6 @@ import { onAccept } from "../redux/action/Action";
 // skeleton
 // import Box from '@mui/material/Box';
 import Skeleton from "@mui/material/Skeleton";
-const drawerWidth = 240;
 
 const BankBalance = () => {
   // table
@@ -59,121 +47,69 @@ const BankBalance = () => {
     console.log("value", e.target.value);
     setInput({ ...input, [e.target.name]: e.target.value });
   };
-  const MaterialIconic = [
-    { item: "Bank Details", link: "/bankdetail", icon: TableViewIcon },
-    { item: "Bank Balance", link: "", icon: AccountBalanceIcon },
-    { item: "New Customer", link: "/newcustomer", icon: Person3Icon },
-  ];
+
   return (
-    <div>
-      <Box sx={{ display: "flex" }}>
-        <CssBaseline />
-        <AppBar
-          position="fixed"
-          sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        >
-          <Toolbar>
-            <Typography variant="h6" noWrap component="div">
-              SBI Bank
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <Drawer
-          variant="permanent"
-          sx={{
-            width: drawerWidth,
-            flexShrink: 0,
-            [`& .MuiDrawer-paper`]: {
-              width: drawerWidth,
-              boxSizing: "border-box",
-            },
-          }}
-        >
-          <Toolbar />
-          <Box sx={{ overflow: "auto" }}>
-            <List></List>
-            <Divider />
-            <List>
-              {MaterialIconic.map((text) => (
-                <Link to={text.link}>
-                  <ListItem key={text} disablePadding>
-                    <ListItemButton>
-                      <ListItemIcon>
-                        <text.icon />
-                      </ListItemIcon>
-                      <ListItemText primary={text.item} />
-                    </ListItemButton>
-                  </ListItem>
-                </Link>
-              ))}
-            </List>
-          </Box>
-        </Drawer>
-        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-          <Toolbar />
-          <div>
-            <TableContainer component={Paper}>
-              {/* {addData && addData.length == 0 ? (
+    <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Toolbar />
+      <div>
+        <TableContainer component={Paper}>
+          {/* {addData && addData.length == 0 ? (
                 "Loading..."
               ) : ( */}
-              <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Id</TableCell>
-                    <TableCell align="center">Full Name</TableCell>
-                    <TableCell align="center">Account No</TableCell>
-                    <TableCell align="center">Bank Balance</TableCell>
-                    <TableCell align="center">Account Type</TableCell>
-                    <TableCell align="center">Transaction Type</TableCell>
-                    <TableCell align="center">Update</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {addData?.map((row) => (
-                    <TableRow
-                      key={row?.FullName}
-                      sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                      }}
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Id</TableCell>
+                <TableCell align="center">Full Name</TableCell>
+                <TableCell align="center">Account No</TableCell>
+                <TableCell align="center">Bank Balance</TableCell>
+                <TableCell align="center">Account Type</TableCell>
+                <TableCell align="center">Transaction Type</TableCell>
+                <TableCell align="center">Update</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {addData?.map((row) => (
+                <TableRow
+                  key={row?.FullName}
+                  sx={{
+                    "&:last-child td, &:last-child th": { border: 0 },
+                  }}
+                >
+                  <TableCell component="th" scope="row">
+                    {row?.id}
+                  </TableCell>
+                  <TableCell align="center">{row?.FullName}</TableCell>
+                  <TableCell align="center">{row?.AccountNo}</TableCell>
+                  <TableCell align="center">
+                    <TextField
+                      hiddenLabel
+                      id=""
+                      name="BankBalance"
+                      defaultValue={row?.BankBalance}
+                      onChange={onField}
+                      variant="filled"
+                      size="small"
+                    />
+                  </TableCell>
+                  <TableCell align="center">{row?.AccountType}</TableCell>
+                  <TableCell align="center">{row?.TransactionType}</TableCell>
+                  <TableCell align="center">
+                    <Button
+                      variant="contained"
+                      onClick={() => handleFieldValueUpdate(row)}
                     >
-                      <TableCell component="th" scope="row">
-                        {row?.id}
-                      </TableCell>
-                      <TableCell align="center">{row?.FullName}</TableCell>
-                      <TableCell align="center">{row?.AccountNo}</TableCell>
-                      <TableCell align="center">
-                        <TextField
-                          hiddenLabel
-                          id=""
-                          name="BankBalance"
-                          defaultValue={row?.BankBalance}
-                          onChange={onField}
-                          variant="filled"
-                          size="small"
-                        />
-                      </TableCell>
-                      <TableCell align="center">{row?.AccountType}</TableCell>
-                      <TableCell align="center">
-                        {row?.TransactionType}
-                      </TableCell>
-                      <TableCell align="center">
-                        <Button
-                          variant="contained"
-                          onClick={() => handleFieldValueUpdate(row)}
-                        >
-                          Update
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-              {/* )} */}
-            </TableContainer>
-          </div>
-        </Box>
-      </Box>
-    </div>
+                      Update
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          {/* )} */}
+        </TableContainer>
+      </div>
+    </Box>
   );
 };
 
