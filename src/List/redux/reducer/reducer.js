@@ -1,11 +1,11 @@
 const initialState = {
   BankBalance: [],
   Deposit: [],
-  Admin: {
-    UserName: "Aparna Soni",
-    Email: "aparnasoni@sebi.com",
-    Password: "Admin@123",
-  },
+  // Admin: {
+  //   UserName: "Aparna Soni",
+  //   Email: "aparnasoni@sebi.com",
+  //   Password: "Admin@123",
+  // },
   count: 0,
 };
 const reducer = (state = initialState, action) => {

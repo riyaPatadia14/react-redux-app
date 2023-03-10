@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -7,6 +7,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { Checkbox } from "@mui/material";
 // table
+import axios from "axios";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -27,7 +28,14 @@ const NewCustomer = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  const getData = () => {
+    axios
+      .get("https://63ea1cc8e0ac9368d64a8759.mockapi.io/Register")
+      .then((response) => setNewCust(response.data));
+  };
+  useEffect(() => {
+    getData();
+  }, []);
   // menu end
   return (
     <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
@@ -59,27 +67,27 @@ const NewCustomer = () => {
           <TableHead>
             <TableRow>
               <TableCell>Id</TableCell>
-              <TableCell>FullName</TableCell>
-              <TableCell align="right">Account No</TableCell>
-              <TableCell align="right">Bank Balance</TableCell>
-              <TableCell align="right">Account Type</TableCell>
-              <TableCell align="right">Transaction Type</TableCell>
-              <TableCell>Customer Id</TableCell>
+              <TableCell align="center">FullName</TableCell>
+              <TableCell align="center">Account No</TableCell>
+              <TableCell align="center">Bank Balance</TableCell>
+              <TableCell align="center">Account Type</TableCell>
+              {/* <TableCell align="right">Transaction Type</TableCell>
+              <TableCell>Customer Id</TableCell> */}
             </TableRow>
           </TableHead>
           <TableBody>
             {newCust.map((row) => (
               <TableRow
-                key={row.name}
+                key={row.fullname}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.name}
+                  {row.id}
                 </TableCell>
-                <TableCell align="right">{row.calories}</TableCell>
-                <TableCell align="right">{row.fat}</TableCell>
-                <TableCell align="right">{row.carbs}</TableCell>
-                <TableCell align="right">{row.protein}</TableCell>
+                <TableCell align="center">{row.fullname}</TableCell>
+                <TableCell align="center">{row.username}</TableCell>
+                <TableCell align="center">{row.email}</TableCell>
+                <TableCell align="center">{row.password}</TableCell>
               </TableRow>
             ))}
           </TableBody>
