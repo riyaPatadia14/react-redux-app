@@ -24,8 +24,6 @@ import LockIcon from "@mui/icons-material/Lock";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Person4Icon from "@mui/icons-material/Person4";
-import "./Drawers.css";
-import { textAlign } from "@mui/system";
 
 const drawerWidth = 240;
 const Drawers = () => {
@@ -57,6 +55,8 @@ const Drawers = () => {
     getData();
   }, []);
   const Uname = localStorage.getItem("Uname");
+  const Adminy = localStorage.getItem("Admin");
+
   return (
     <>
       <div>
@@ -69,10 +69,11 @@ const Drawers = () => {
             >
               <Toolbar>
                 <div style={{ textAlign: "center", fontSize: "20px" }}>
-                  Standardize
+                  SEBI
                 </div>
                 <div style={{ textAlign: "center", paddingLeft: "85%" }}>
                   {Uname}
+                  {Adminy}
                 </div>
                 <div style={{ textAlign: "center", paddingLeft: "2%" }}>
                   <Fingerprint onClick={LogOut} />
@@ -92,35 +93,43 @@ const Drawers = () => {
             >
               <Toolbar />
               <Box sx={{ overflow: "auto" }}>
-                <List>
-                  {User.map((text) => (
-                    <Link to={text.link}>
-                      <ListItem key={text} disablePadding>
-                        <ListItemButton>
-                          <ListItemIcon>
-                            <text.icon />
-                          </ListItemIcon>
-                          <ListItemText primary={text.item} />
-                        </ListItemButton>
-                      </ListItem>
-                    </Link>
-                  ))}
-                </List>
-                <Divider />
-                <List>
-                  {Admin.map((text) => (
-                    <Link to={text.link}>
-                      <ListItem key={text} disablePadding>
-                        <ListItemButton>
-                          <ListItemIcon>
-                            <text.icon />
-                          </ListItemIcon>
-                          <ListItemText primary={text.item} />
-                        </ListItemButton>
-                      </ListItem>
-                    </Link>
-                  ))}
-                </List>
+                {
+                  <div>
+                    {Uname && (
+                      <List>
+                        {User.map((text) => (
+                          <Link to={text.link}>
+                            <ListItem key={text} disablePadding>
+                              <ListItemButton>
+                                <ListItemIcon>
+                                  <text.icon />
+                                </ListItemIcon>
+                                <ListItemText primary={text.item} />
+                              </ListItemButton>
+                            </ListItem>
+                          </Link>
+                        ))}
+                      </List>
+                    )}
+                    <Divider />
+                    {!Uname && (
+                      <List>
+                        {Admin.map((text) => (
+                          <Link to={text.link}>
+                            <ListItem key={text} disablePadding>
+                              <ListItemButton>
+                                <ListItemIcon>
+                                  <text.icon />
+                                </ListItemIcon>
+                                <ListItemText primary={text.item} />
+                              </ListItemButton>
+                            </ListItem>
+                          </Link>
+                        ))}
+                      </List>
+                    )}
+                  </div>
+                }
               </Box>
             </Drawer>
             <Outlet />

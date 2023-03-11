@@ -28,10 +28,10 @@ const BankBalance = () => {
   const dispatch = useDispatch();
   const addData = useSelector((state) => state?.BankBalance);
   const editData = useSelector((state) => state?.Deposit);
-  console.log("editData 1", editData);
+  // console.log("editData 1", editData);
   useEffect(() => {
     // debugger;
-    console.log("UseEffect Data ", editData);
+    // console.log("UseEffect Data ", editData);
     setInput(editData);
   }, [editData]);
   // console.log("editData", editData);
@@ -43,8 +43,8 @@ const BankBalance = () => {
   };
   const onField = (e) => {
     // debugger;
-    console.log("name", e.target.name);
-    console.log("value", e.target.value);
+    // console.log("name", e.target.name);
+    // console.log("value", e.target.value);
     setInput({ ...input, [e.target.name]: e.target.value });
   };
 

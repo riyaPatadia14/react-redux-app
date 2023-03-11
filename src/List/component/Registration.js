@@ -27,8 +27,8 @@ const Registration = () => {
   const regData = useSelector((state) => state);
   console.log("regData", regData);
   const onHandleRegister = (e) => {
-    console.log(e.target.name);
-    console.log(e.target.value);
+    // console.log(e.target.name);
+    // console.log(e.target.value);
     setRegister({ ...register, [e.target.name]: e.target.value });
   };
   const onRegister = () => {

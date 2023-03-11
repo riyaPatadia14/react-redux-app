@@ -1,26 +1,37 @@
 const initialState = {
   BankBalance: [],
   Deposit: [],
-  // Admin: {
-  //   UserName: "Aparna Soni",
-  //   Email: "aparnasoni@sebi.com",
-  //   Password: "Admin@123",
-  // },
+  Admin: [
+    {
+      UserName: "Aparna Soni",
+      Email: "aparnasoni@sebi.com",
+      Password: "Admin@123",
+      role: "ADMIN",
+    },
+  ],
   count: 0,
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case "onAdmin":
+      // debugger;
+      const a = action.payload;
+      const onALog = state?.Admin.map((x) => x.UserName == a.UserName);
+      return {
+        ...state,
+        Admin: onALog,
+      };
     case "onAppend":
       // add
       const { o } = action.payload;
-      console.log("o: ", action.payload);
+      // console.log("o: ", action.payload);
       return {
         ...state,
         BankBalance: [...state.BankBalance, o],
       };
     case "onUnCheck":
       // delete
-      console.log("action.id", action.payload.id);
+      // console.log("action.id", action.payload.id);
       const dispatchUnCheck = [
         ...state?.BankBalance?.filter((id) => id !== action.payload.id),
       ];
@@ -31,7 +42,7 @@ const reducer = (state = initialState, action) => {
     case "onCheck": {
       //  edit
       const id = action.payload;
-      console.log("onCheck", id);
+      // console.log("onCheck", id);
       return {
         ...state,
         Deposit: id,
@@ -43,7 +54,7 @@ const reducer = (state = initialState, action) => {
       const id = action.payload.id;
       const onChange = state.BankBalance.map((x) => {
         if (x.id == action.payload.id) {
-          console.log("x = payload", (x = action.payload));
+          // console.log("x = payload", (x = action.payload));
           return (x = action.payload);
         }
         return x;

@@ -33,16 +33,16 @@ const BankDetail = () => {
     handleGetRequest();
   }, []);
   const getData = useSelector((state) => state);
-  console.log("getData", getData);
+  // console.log("getData", getData);
   const alreadyChecked = useSelector((state) => state?.BankBalance);
-  console.log("alreadyChecked", alreadyChecked);
+  // console.log("alreadyChecked", alreadyChecked);
   useEffect(() => {
     setCheckboxColor(alreadyChecked);
   }, [alreadyChecked]);
 
   // handleCheckEvent
   const handleCheckEvent = (event, row) => {
-    console.log("row", row);
+    // console.log("row", row);
     const checked = event.target.checked;
     const found = alreadyChecked.filter((x) => x.id === row.id);
     if (found.length === 0 && checked == true) {
@@ -50,22 +50,15 @@ const BankDetail = () => {
       dispatch(onAppend(event, row));
     } else if (checked == false) {
       dispatch(onUnCheck(event, row));
-      console.log("false: checked - ", row);
+      // console.log("false: checked - ", row);
     } else {
       alert("Already exists");
     }
-    console.log("event", event);
+    // console.log("event", event);
   };
 
   // checkbox
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
-
-  // const MaterialIconic = [
-  //   // { item: "Registration", link: "/registration", icon: HowToRegIcon },
-  //   { item: "Bank Details", link: "", icon: TableViewIcon },
-  //   { item: "Bank Balance", link: "/bankbalance", icon: AccountBalanceIcon },
-  //   { item: "New Customer", link: "/newcustomer", icon: Person3Icon },
-  // ];
 
   return (
     <Box component="main" sx={{ flexGrow: 1, p: 3 }}>

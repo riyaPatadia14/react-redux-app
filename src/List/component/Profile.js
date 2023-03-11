@@ -20,54 +20,59 @@ const Profile = () => {
     axios
       .get("https://63ea1cc8e0ac9368d64a8759.mockapi.io/Register")
       .then((response) => setInfo(response.data));
-    console.log("info", info);
-    localStorage.setItem("Registered", JSON.stringify(info));
+    // console.log("info", info);
+
     navigate("/drawers/Profile");
   };
   useEffect(() => {
     getData();
   }, []);
 
+  let getInfo = localStorage.getItem("loginStorage");
+  let obj = JSON.parse(getInfo);
+  // console.log("obj", obj);
   return (
     <Box sx={{ flexGrow: 1, p: 10 }}>
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         <Grid item xs={6}>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableBody>
-                <TableRow>
-                  <TableCell align="left">Id</TableCell>
-                  <TableCell align="center"></TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell align="left">FullName</TableCell>
-                  <TableCell align="center"></TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell align="left">UserName</TableCell>
-                  <TableCell align="center"></TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell align="left">Email</TableCell>
-                  <TableCell align="center"></TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell align="left">Account No</TableCell>
-                  <TableCell align="center"></TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell align="left">Bank Balance</TableCell>
-                  <TableCell align="center"></TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell align="left">Account Type</TableCell>
-                  <TableCell align="center"></TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell align="left">Transaction Type</TableCell>
-                  <TableCell align="center"></TableCell>
-                </TableRow>
-              </TableBody>
+              {obj.map((x) => (
+                <TableBody>
+                  {/* <TableRow>
+                    <TableCell align="left">Id</TableCell>
+                    <TableCell align="center">{x.id}</TableCell>
+                  </TableRow> */}
+                  <TableRow>
+                    <TableCell align="left">FullName</TableCell>
+                    <TableCell align="center">{x.fullname}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell align="left">UserName</TableCell>
+                    <TableCell align="center">{x.username}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell align="left">Email</TableCell>
+                    <TableCell align="center">{x.email}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell align="left">Account No</TableCell>
+                    <TableCell align="center">{x.accountno}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell align="left">Bank Balance</TableCell>
+                    <TableCell align="center">{x.bankbalance}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell align="left">Account Type</TableCell>
+                    <TableCell align="center">{x.accounttype}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell align="left">Transaction Type</TableCell>
+                    <TableCell align="center">{x.transactiontype}</TableCell>
+                  </TableRow>
+                </TableBody>
+              ))}
             </Table>
           </TableContainer>
         </Grid>

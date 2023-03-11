@@ -1,3 +1,12 @@
+export const onAdmin = (a, r) => {
+  console.log("action a:", a);
+  // console.log("action r:", r);
+  return {
+    type: "onAdmin",
+    payload: a,
+    r,
+  };
+};
 export const onAppend = (e, o) => {
   console.log("o", o);
   return {

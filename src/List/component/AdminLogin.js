@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from "react";
 import Stack from "@mui/material/Stack";
-import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-// ahbshegw
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import OutlinedInput from "@mui/material/OutlinedInput";
+// import InputLabel from "@mui/material/InputLabel";
+// import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import Input from "@mui/material/Input";
 // route
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import AdminLogin from "./AdminLogin";
+// import AdminLogin from "./AdminLogin";
+// redux
+import { useDispatch, useSelector } from "react-redux";
+import { onAdmin } from "../redux/action/Action";
 
 const style = {
   position: "absolute",
@@ -30,10 +29,9 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-
-const Login = () => {
-  const [login, setLogin] = useState([]);
-  const [reg, setReg] = useState([]);
+const AdminLogin = () => {
+  const [admin, setAdmin] = useState([]);
+  const [result, setResult] = useState([]);
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -41,48 +39,36 @@ const Login = () => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  const onFieldChange = (e) => {
-    setLogin({ ...login, [e.target.name]: e.target.value });
+  const dispatch = useDispatch();
+  const onAdminField = (e) => {
+    setAdmin({ ...admin, [e.target.name]: e.target.value });
   };
-  const getData = () => {
-    axios
-      .get("https://63ea1cc8e0ac9368d64a8759.mockapi.io/Register")
-      .then((response) => setReg(response.data));
-  };
-  useEffect(() => {
-    getData();
-  }, []);
+  const adminData = useSelector((state) => state?.Admin);
+  console.log("adminData", adminData);
 
-  const onAdminClick = () => {
-    navigate("/adminlogin");
-  };
-
-  const onLogin = () => {
-    let matchLogin = reg?.filter(
-      (x) => x.username == login.username && x.password == login.password
+  const onAdminLogIn = (e) => {
+    const blah = adminData?.filter(
+      (x) => x.UserName == admin.UserName && x.Password == admin.Password
     );
-    let mapJson = JSON.stringify(matchLogin);
-    if (matchLogin.length > 0) {
-      // console.log("true", true);
-      localStorage.setItem("login", true);
-      navigate("/drawers/payments");
-    } else if (!matchLogin.length > 0) {
-      localStorage.setItem("login", true);
-      navigate("/registration");
+    console.log("!blah", !blah);
+    console.log("blah", blah);
+    if (!blah.length > 0) {
+      dispatch(onAdmin(admin, e));
+      localStorage.setItem("Admin", true);
+      navigate("/drawers/bankdetail");
+    } else if (blah.length > 0) {
+      alert("not matching data");
     }
-    // console.log("login :-", login);
-    localStorage.setItem("loginStorage", mapJson);
-    localStorage.setItem("Uname", login.username);
-    // console.log("match", matchLogin);
+    console.log("handleFieldValueUpdate: ", dispatch(onAdmin(admin, e)));
   };
 
   const navigate = useNavigate();
   useEffect(() => {
-    let login = localStorage.getItem("Login");
-    if (login) {
-      navigate("/drawers/payments");
+    let register = localStorage.getItem("Login");
+    if (register) {
+      navigate("/drawers/bankdetail");
     }
-  }, [0]);
+  }, []);
   return (
     <>
       <Box sx={style}>
@@ -98,13 +84,13 @@ const Login = () => {
           noValidate
           autoComplete="off"
         >
-          <h3 style={{ textAlign: "center" }}>Login</h3>
+          <h3 style={{ textAlign: "center" }}>Admin Login</h3>
           <FormControl variant="standard" sx={{ m: 1, mt: 3, width: "45ch" }}>
             <Input
               id="username"
               placeholder="UserName"
               name="username"
-              onChange={onFieldChange}
+              onChange={onAdminField}
               aria-describedby="standard-weight-helper-text"
             />
           </FormControl>
@@ -114,7 +100,7 @@ const Login = () => {
               name="password"
               id="standard-adornment-password"
               type={showPassword ? "text" : "password"}
-              onChange={onFieldChange}
+              onChange={onAdminField}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -128,14 +114,19 @@ const Login = () => {
               }
             />
           </FormControl>
-          <Button variant="contained" onClick={onLogin}>
-            Login
+          <Button
+            variant="contained"
+            onClick={(e) => {
+              onAdminLogIn(e, admin);
+            }}
+          >
+            Admin
           </Button>
-          <Button onClick={onAdminClick}>Admin</Button>
+          {/* <Button onClick={onAdminClick}>Admin</Button> */}
         </Stack>
       </Box>
     </>
   );
 };
 
-export default Login;
+export default AdminLogin;
