@@ -14,7 +14,7 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "onAdmin":
-      // debugger;
+      // admin
       const a = action.payload;
       const onALog = state?.Admin.map((x) => x.UserName == a.UserName);
       return {
@@ -22,16 +22,14 @@ const reducer = (state = initialState, action) => {
         Admin: onALog,
       };
     case "onAppend":
-      // add
+      // add bankbalance
       const { o } = action.payload;
-      // console.log("o: ", action.payload);
       return {
         ...state,
         BankBalance: [...state.BankBalance, o],
       };
     case "onUnCheck":
-      // delete
-      // console.log("action.id", action.payload.id);
+      // delete bankbalance
       const dispatchUnCheck = [
         ...state?.BankBalance?.filter((id) => id !== action.payload.id),
       ];

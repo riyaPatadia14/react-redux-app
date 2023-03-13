@@ -73,7 +73,7 @@ const Drawers = () => {
                 </div>
                 <div style={{ textAlign: "center", paddingLeft: "85%" }}>
                   {Uname}
-                  {Adminy}
+                  {!Uname && Adminy}
                 </div>
                 <div style={{ textAlign: "center", paddingLeft: "2%" }}>
                   <Fingerprint onClick={LogOut} />

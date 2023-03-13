@@ -13,6 +13,7 @@ import React, { useState } from "react";
 import Payments from "./List/component/Payments";
 import Profile from "./List/component/Profile";
 import AdminLogin from "./List/component/AdminLogin";
+import PaymentForm from "./List/component/PaymentForm";
 
 const App = () => {
   const Uname = localStorage.getItem("Uname");
@@ -38,6 +39,7 @@ const App = () => {
           <Route path="drawers" element={<Drawers />}>
             <Route path="payments" element={<Payments />} />
             <Route path="profile" element={<Profile />} />
+            <Route path="paymentform" element={<PaymentForm />} />
           </Route>
         </Routes>
       </main>
