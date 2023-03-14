@@ -24,6 +24,7 @@ import LockIcon from "@mui/icons-material/Lock";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Person4Icon from "@mui/icons-material/Person4";
+import ReceiptIcon from "@mui/icons-material/Receipt";
 
 const drawerWidth = 240;
 const Drawers = () => {
@@ -45,6 +46,7 @@ const Drawers = () => {
   const User = [
     { item: "Payment", link: "/drawers/payments", icon: PaymentIcon },
     { item: "Profile", link: "/drawers/profile", icon: Person4Icon },
+    { item: "Payment Form", link: "/drawers/paymentform", icon: ReceiptIcon },
   ];
   const getData = () => {
     axios

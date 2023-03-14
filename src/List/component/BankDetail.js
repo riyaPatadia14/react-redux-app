@@ -26,7 +26,7 @@ const BankDetail = () => {
   const handleGetRequest = () => {
     setTimeout(() => {
       axios
-        .get("https://63ea1cc8e0ac9368d64a8759.mockapi.io/bank_management")
+        .get("https://63ea1cc8e0ac9368d64a8759.mockapi.io/Register")
         .then((response) => {
           setRows(response.data);
         });
@@ -107,14 +107,14 @@ const BankDetail = () => {
                       <TableCell component="th" scope="row" name="id">
                         {row?.id}
                       </TableCell>
-                      <TableCell align="center">{row?.FullName}</TableCell>
-                      <TableCell align="center">{row?.AccountNo}</TableCell>
-                      <TableCell align="center">{row?.BankBalance}</TableCell>
-                      <TableCell align="center">{row?.AccountType}</TableCell>
+                      <TableCell align="center">{row?.fullname}</TableCell>
+                      <TableCell align="center">{row?.accountno}</TableCell>
+                      <TableCell align="center">{row?.bankbalance}</TableCell>
+                      <TableCell align="center">{row?.accounttype}</TableCell>
                       <TableCell align="center">
-                        {row?.TransactionType}
+                        {row?.transactiontype}
                       </TableCell>
-                      <TableCell align="center">{row?.CustomerId}</TableCell>
+                      <TableCell align="center">{row?.customerid}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
