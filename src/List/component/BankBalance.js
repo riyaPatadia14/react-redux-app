@@ -21,10 +21,7 @@ const BankBalance = () => {
   const dispatch = useDispatch();
   const addData = useSelector((state) => state?.BankBalance);
   const editData = useSelector((state) => state?.Deposit);
-  console.log(
-    "addData 1",
-    addData.map((x) => x.BankBalance)
-  );
+
   let totalAmount = 0;
   const xyz = addData.map(
     (x) => (totalAmount = parseFloat(totalAmount) + parseFloat(x.BankBalance))

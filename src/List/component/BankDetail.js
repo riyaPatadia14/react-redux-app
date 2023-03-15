@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-// table
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -13,25 +12,22 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-// redux
+import { LoginAPI } from "../service/Index";
 import { useDispatch, useSelector } from "react-redux";
 import { onAppend, onUnCheck, onCheck } from "../redux/action/Action";
-// axios
-import axios from "axios";
 import Checkbox from "@mui/material/Checkbox";
+
 const BankDetail = () => {
   const [rows, setRows] = useState([]);
   const dispatch = useDispatch();
   // get api
   const handleGetRequest = () => {
     setTimeout(() => {
-      axios
-        .get("https://63ea1cc8e0ac9368d64a8759.mockapi.io/Register")
-        .then((response) => {
-          setRows(response.data);
-        });
+      LoginAPI()?.then((response) => {
+        setRows(response.data);
+      });
     }, 500);
-  };
+  }
   useEffect(() => {
     handleGetRequest();
   }, []);
@@ -49,10 +45,8 @@ const BankDetail = () => {
       toast.error("Already exists");
     }
   };
-
   // checkbox
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
-
   return (
     <>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>

@@ -65,36 +65,28 @@ const Registration = () => {
       password: "",
     },
     validate,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: (val) => {
+      alert(JSON.stringify(val, null, 2));
+      onRegister(val);
     },
   });
   const [register, setRegister] = useState([]);
   const [showPassword, setShowPassword] = React.useState(false);
   const regData = useSelector((state) => state);
   console.log("regData", regData);
-  // const onHandleRegister = (e) => {
-  //   // console.log(e.target.name);
-  //   // console.log(e.target.value);
-  //   setRegister({ ...register, [e.target.name]: e.target.value });
-  // };
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  const onRegister = () => {
+  const onRegister = (e) => {
     axios.post("https://63ea1cc8e0ac9368d64a8759.mockapi.io/Register", {
-      fullname: register.fullname,
-      username: register.username,
-      email: register.email,
-      password: register.password,
+      fullname: e.fullname,
+      username: e.username,
+      email: e.email,
+      password: e.password,
     });
     localStorage.setItem("Registered", JSON.stringify(register.username));
-    console.log(
-      "tima",
-      localStorage.setItem("Registered", JSON.stringify(register))
-    );
     navigate("/login");
   };
   const navigate = useNavigate();
@@ -109,6 +101,7 @@ const Registration = () => {
     <>
       <Box sx={style}>
         <Stack
+          onSubmit={formik.handleSubmit}
           component="form"
           sx={{
             display: "flex",
@@ -176,7 +169,7 @@ const Registration = () => {
             />
           </FormControl>
           {formik.errors.password ? <div>{formik.errors.password}</div> : null}
-          <Button variant="contained" onClick={() => onRegister()}>
+          <Button type="submit" variant="contained">
             Register
           </Button>
         </Stack>

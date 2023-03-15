@@ -56,7 +56,7 @@ const Drawers = () => {
   useEffect(() => {
     getData();
   }, []);
-  const Uname = localStorage.getItem("Uname");
+  const Uname = localStorage.getItem("mappedData");
   const Adminy = localStorage.getItem("Admin");
 
   return (

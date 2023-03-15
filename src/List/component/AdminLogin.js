@@ -9,7 +9,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import Input from "@mui/material/Input";
 import { useNavigate } from "react-router-dom";
-import { useFormik } from "formik";
+import { Formik } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { onAdmin } from "../redux/action/Action";
@@ -26,53 +26,16 @@ const style = {
   p: 4,
 };
 
-// validate
-const validate = (values) => {
-  const errors = {};
-  if (!values.username) {
-    errors.username = "Required";
-  } else if (values.username.length > 15) {
-    errors.username = "Must be 15 characters or less";
-  }
-  if (!values.password) {
-    errors.password = "Required";
-  } else if (values.password.length > 10) {
-    errors.password = "Must be 10 characters or less";
-  }
-
-  return errors;
-};
-
 const AdminLogin = () => {
-  const formik = useFormik({
-    initialValues: {
-      username: "",
-      password: "",
-    },
-    validate,
-    onSubmit: (values) => {
-      JSON.stringify(values, null, 2);
-    },
-  });
-  // const initialValues = { username: "", password: "" };
   const [admin, setAdmin] = useState([]);
   const [showPassword, setShowPassword] = React.useState(false);
-  // const [submitting, setSubmitting] = useState(true);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-
   const dispatch = useDispatch();
-  // const onAdminField = (e) => {
-  //   console.log("eve", e.target.name);
-  //   console.log("ll", e.target.value);
-  //   setAdmin({ ...admin, [e.target.name]: e.target.value });
-  // };
   const adminData = useSelector((state) => state?.Admin);
-  // console.log("adminData", adminData);
-
   const onAdminLogIn = (e) => {
     const blah = adminData?.filter(
       (x) => x.UserName == admin.UserName && x.Password == admin.Password
@@ -98,66 +61,103 @@ const AdminLogin = () => {
 
   return (
     <>
-      <Box sx={style}>
-        {/* <div> */}
-        <Stack
-          onSubmit={formik.handleSubmit}
-          component="form"
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            rowGap: 2,
-            alignContent: "center",
-          }}
-          noValidate
-          autoComplete="off"
-        >
-          <h3 style={{ textAlign: "center" }}>Admin Login</h3>
-          <FormControl variant="standard" sx={{ m: 1, mt: 3, width: "45ch" }}>
-            <Input
-              id="username"
-              placeholder="UserName"
-              onChange={formik.handleChange}
-              value={formik.values.username}
-              name="username"
-              aria-describedby="standard-weight-helper-text"
-            />
-          </FormControl>
-          {formik.errors.username ? <div>{formik.errors.username}</div> : null}
-          <FormControl sx={{ m: 1, width: "45ch" }} variant="standard">
-            <Input
-              placeholder="Password"
-              name="password"
-              onChange={formik.handleChange}
-              value={formik.values.password}
-              id="standard-adornment-password"
-              type={showPassword ? "text" : "password"}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-          </FormControl>
-          {formik.errors.password ? <div>{formik.errors.password}</div> : null}
-          <Button
-            type="submit"
-            variant="contained"
-            onClick={(e) => {
-              onAdminLogIn(e, admin);
-            }}
-          >
-            Admin
-          </Button>
-          {/* <Button onClick={onAdminClick}>Admin</Button> */}
-        </Stack>
-      </Box>
+      <Formik
+        initialValues={{ email: "", password: "" }}
+        validate={(values) => {
+          const errors = {};
+          if (!values.email) {
+            errors.email = "Required";
+          } else if (
+            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+          ) {
+            errors.email = "Invalid email address";
+          }
+          return errors;
+        }}
+        onSubmit={(values) => {
+          // onAdminLogIn(values);
+          // setTimeout(() => {
+          console.log("values", values);
+          //   alert(JSON.stringify(values, null, 2));
+          //   setSubmitting(false);
+          // }, 400);
+        }}
+      >
+        {({
+          values,
+          errors,
+          touched,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          /* and other goodies */
+        }) => (
+          <Box sx={style}>
+            {/* <div> */}
+            <Stack
+              onSubmit={handleSubmit}
+              component="form"
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                rowGap: 2,
+                alignContent: "center",
+              }}
+              noValidate
+              autoComplete="off"
+            >
+              <h3 style={{ textAlign: "center" }}>Admin Login</h3>
+              <FormControl
+                variant="standard"
+                sx={{ m: 1, mt: 3, width: "45ch" }}
+              >
+                <Input
+                  id="username"
+                  placeholder="UserName"
+                  name="username"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.username}
+                  aria-describedby="standard-weight-helper-text"
+                />
+              </FormControl>
+              {errors.username && touched.username && errors.username}
+              <FormControl sx={{ m: 1, width: "45ch" }} variant="standard">
+                <Input
+                  placeholder="Password"
+                  name="password"
+                  id="standard-adornment-password"
+                  type={showPassword ? "text" : "password"}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.password}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
+              {errors.password && touched.password && errors.password}
+              <Button
+                type="submit"
+                variant="contained"
+                onClick={(e) => {
+                  onAdminLogIn(e, admin);
+                }}
+              >
+                Admin
+              </Button>
+            </Stack>
+          </Box>
+        )}
+      </Formik>
     </>
   );
 };

@@ -9,10 +9,9 @@ import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import Input from "@mui/material/Input";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { useFormik } from "formik";
+import { Formik } from "formik";
 import * as Yup from "yup";
-
+import { LoginAPI } from "../service/Index";
 const style = {
   position: "absolute",
   top: "50%",
@@ -24,35 +23,7 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-const validate = (values) => {
-  const errors = {};
-  if (!values.username) {
-    errors.username = "Required";
-  } else if (values.username.length > 15) {
-    errors.username = "Must be 15 characters or less";
-  }
-  if (!values.password) {
-    errors.password = "Required";
-  } else if (values.password.length > 10) {
-    errors.password = "Must be 10 characters or less";
-  }
-
-  return errors;
-};
-const Login = ({ onRegister }) => {
-  const formik = useFormik({
-    initialValues: {
-      username: "",
-      password: "",
-    },
-    validate,
-    onRegister,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
-    },
-  });
-
-  const [login, setLogin] = useState([]);
+const Login = () => {
   const [reg, setReg] = useState([]);
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -63,9 +34,7 @@ const Login = ({ onRegister }) => {
   };
 
   const getData = () => {
-    axios
-      .get("https://63ea1cc8e0ac9368d64a8759.mockapi.io/Register")
-      .then((response) => setReg(response.data));
+    LoginAPI()?.then((response) => setReg(response.data));
   };
   useEffect(() => {
     getData();
@@ -75,14 +44,14 @@ const Login = ({ onRegister }) => {
     navigate("/adminlogin");
   };
 
-  const onLogin = () => {
+  const onLogin = (fetchValue) => {
     let matchLogin = reg?.filter(
-      (x) => x.username == login.username && x.password == login.password
+      (x) =>
+        x.username == fetchValue.username && x.password == fetchValue.password
     );
-    let mapJson = JSON.stringify(matchLogin);
+    let mappedData = matchLogin.map((x) => x.username);
     if (matchLogin.length > 0) {
-      // console.log("true", true);
-      localStorage.setItem("login", true);
+      localStorage.setItem("mappedData", mappedData);
       navigate("/drawers/payments");
     } else if (
       !matchLogin.length > 0 ||
@@ -90,12 +59,9 @@ const Login = ({ onRegister }) => {
       !matchLogin.length == 0
     ) {
       localStorage.setItem("login false", false);
-      navigate("/drawers/payments");
+      navigate("/registration");
     }
-    // console.log("login :-", login);
-    localStorage.setItem("loginStorage", mapJson);
-    localStorage.setItem("Uname", reg.username);
-    // console.log("match", matchLogin);
+    localStorage.setItem("mappedData", mappedData);
   };
   const navigate = useNavigate();
   useEffect(() => {
@@ -106,61 +72,102 @@ const Login = ({ onRegister }) => {
   }, [0]);
   return (
     <>
-      <Box sx={style}>
-        {/* <div> */}
-        <Stack
-          component="form"
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            rowGap: 2,
-            alignContent: "center",
-          }}
-          noValidate
-          autoComplete="off"
-        >
-          <h3 style={{ textAlign: "center" }}>Login</h3>
-          <FormControl variant="standard" sx={{ m: 1, mt: 3, width: "45ch" }}>
-            <Input
-              onSubmit={formik.handleSubmit}
-              id="username"
-              placeholder="UserName"
-              onChange={formik.handleChange}
-              value={formik.values.username}
-              name="username"
-              // onChange={onFieldChange}
-              aria-describedby="standard-weight-helper-text"
-            />
-          </FormControl>
-          {formik.errors.username ? <div>{formik.errors.username}</div> : null}
-          <FormControl sx={{ m: 1, width: "45ch" }} variant="standard">
-            <Input
-              placeholder="Password"
-              id="standard-adornment-password"
-              type={showPassword ? "text" : "password"}
-              name="password"
-              onChange={formik.handleChange}
-              value={formik.values.password}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-          </FormControl>
-          {formik.errors.password ? <div>{formik.errors.password}</div> : null}
-          <Button variant="contained" onClick={onLogin}>
-            Login
-          </Button>
-          <Button onClick={onAdminClick}>Admin</Button>
-        </Stack>
-      </Box>
+      <Formik
+        initialValues={{ username: "", password: "" }}
+        validate={(values) => {
+          const errors = {};
+          if (!values.username) {
+            errors.username = "Required";
+          } else if (values.username.length > 15) {
+            errors.username = "Invalid name";
+          }
+          if (!values.password) {
+            errors.username = "Required";
+          } else if (!values.password.length > 15) {
+            errors.username = "Invalid password";
+          }
+          return errors;
+        }}
+        onSubmit={(val) => {
+          // console.log(val);
+          // setTimeout(() => {
+          //   alert(JSON.stringify(values, null, 2));
+          onLogin(val);
+          // setSubmitting(false);
+          // }, 400);
+        }}
+      >
+        {({
+          values,
+          errors,
+          touched,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+
+          /* and other goodies */
+        }) => (
+          <Box sx={style}>
+            {/* <div> */}
+            <Stack
+              onSubmit={handleSubmit}
+              component="form"
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                rowGap: 2,
+                alignContent: "center",
+              }}
+              noValidate
+              autoComplete="off"
+            >
+              <h3 style={{ textAlign: "center" }}>Login</h3>
+              <FormControl
+                variant="standard"
+                sx={{ m: 1, mt: 3, width: "45ch" }}
+              >
+                <Input
+                  id="username"
+                  placeholder="UserName"
+                  name="username"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.username}
+                  aria-describedby="standard-weight-helper-text"
+                />
+              </FormControl>
+              {errors.username && touched.username && errors.username}
+              <FormControl sx={{ m: 1, width: "45ch" }} variant="standard">
+                <Input
+                  placeholder="Password"
+                  id="standard-adornment-password"
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.password}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
+              {errors.password && touched.password && errors.password}
+              <Button type="submit" variant="contained">
+                Login
+              </Button>
+              <Button onClick={onAdminClick}>Admin</Button>
+            </Stack>
+          </Box>
+        )}
+      </Formik>
     </>
   );
 };
