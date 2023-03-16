@@ -10,6 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import Input from "@mui/material/Input";
 import { useNavigate } from "react-router-dom";
 import { Formik } from "formik";
+import LoginSchema from "../validationSchema/LoginSchema";
 import * as Yup from "yup";
 import { LoginAPI } from "../service/Index";
 const style = {
@@ -51,43 +52,30 @@ const Login = () => {
     );
     let mappedData = matchLogin.map((x) => x.username);
     if (matchLogin.length > 0) {
-      localStorage.setItem("mappedData", mappedData);
+      localStorage.setItem("Login", true);
       navigate("/drawers/payments");
     } else if (
       !matchLogin.length > 0 ||
       !matchLogin.length == "" ||
       !matchLogin.length == 0
     ) {
-      localStorage.setItem("login false", false);
+      localStorage.setItem("Login", false);
       navigate("/registration");
     }
     localStorage.setItem("mappedData", mappedData);
   };
   const navigate = useNavigate();
-  useEffect(() => {
-    let login = localStorage.getItem("Login");
-    if (login) {
-      navigate("/drawers/payments");
-    }
-  }, [0]);
+
+  // let login = localStorage.getItem("Login");
+  // if (login) {
+  //   navigate("/drawers/payments");
+  // }
+
   return (
     <>
       <Formik
         initialValues={{ username: "", password: "" }}
-        validate={(values) => {
-          const errors = {};
-          if (!values.username) {
-            errors.username = "Required";
-          } else if (values.username.length > 15) {
-            errors.username = "Invalid name";
-          }
-          if (!values.password) {
-            errors.username = "Required";
-          } else if (!values.password.length > 15) {
-            errors.username = "Invalid password";
-          }
-          return errors;
-        }}
+        validate={LoginSchema}
         onSubmit={(val) => {
           // console.log(val);
           // setTimeout(() => {

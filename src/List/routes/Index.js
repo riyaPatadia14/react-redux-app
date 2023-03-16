@@ -1,6 +1,7 @@
 const Index = {
   Login: "/login",
-  Protected: "/login",
+  AdminElement: "/AdminElement",
+  PublicElement: "/PublicElement",
   AdminLogin: "adminlogin",
   Drawers: "/drawers",
   BankDetail: "bankdetail",

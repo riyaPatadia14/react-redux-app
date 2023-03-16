@@ -9,10 +9,10 @@ import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import Input from "@mui/material/Input";
 import { useNavigate } from "react-router-dom";
-import { Formik } from "formik";
-import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { onAdmin } from "../redux/action/Action";
+import { Formik } from "formik";
+import LoginSchema from "../validationSchema/LoginSchema";
 
 const style = {
   position: "absolute",
@@ -36,6 +36,7 @@ const AdminLogin = () => {
   };
   const dispatch = useDispatch();
   const adminData = useSelector((state) => state?.Admin);
+  const navigate = useNavigate();
   const onAdminLogIn = (e) => {
     const blah = adminData?.filter(
       (x) => x.UserName == admin.UserName && x.Password == admin.Password
@@ -43,43 +44,25 @@ const AdminLogin = () => {
     console.log("!blah", !blah);
     console.log("blah", blah);
     if (!blah.length > 0) {
-      dispatch(onAdmin(admin, e));
+      dispatch(onAdmin(e, admin));
       localStorage.setItem("Admin", true);
       navigate("/drawers/bankdetail");
-    } else if (blah.length > 0 && blah.length == 0 && blah.length == "") {
+    } else if (blah.length > 0) {
       alert("not matching data");
     }
     console.log("handleFieldValueUpdate: ", dispatch(onAdmin(admin, e)));
   };
-  const navigate = useNavigate();
-  useEffect(() => {
-    let register = localStorage.getItem("Login");
-    if (register) {
-      navigate("/drawers/bankdetail");
-    }
-  }, []);
 
   return (
     <>
       <Formik
-        initialValues={{ email: "", password: "" }}
-        validate={(values) => {
-          const errors = {};
-          if (!values.email) {
-            errors.email = "Required";
-          } else if (
-            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-          ) {
-            errors.email = "Invalid email address";
-          }
-          return errors;
-        }}
-        onSubmit={(values) => {
-          // onAdminLogIn(values);
+        initialValues={{ username: "", password: "" }}
+        validate={LoginSchema}
+        onSubmit={(values, { setSubmitting }) => {
           // setTimeout(() => {
-          console.log("values", values);
-          //   alert(JSON.stringify(values, null, 2));
-          //   setSubmitting(false);
+          // alert(JSON.stringify(values, null, 2));
+          onAdminLogIn(values);
+          setSubmitting(false);
           // }, 400);
         }}
       >
@@ -90,10 +73,10 @@ const AdminLogin = () => {
           handleChange,
           handleBlur,
           handleSubmit,
+          isSubmitting,
           /* and other goodies */
         }) => (
           <Box sx={style}>
-            {/* <div> */}
             <Stack
               onSubmit={handleSubmit}
               component="form"
@@ -125,9 +108,9 @@ const AdminLogin = () => {
               <FormControl sx={{ m: 1, width: "45ch" }} variant="standard">
                 <Input
                   placeholder="Password"
-                  name="password"
                   id="standard-adornment-password"
                   type={showPassword ? "text" : "password"}
+                  name="password"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.password}
@@ -148,9 +131,8 @@ const AdminLogin = () => {
               <Button
                 type="submit"
                 variant="contained"
-                onClick={(e) => {
-                  onAdminLogIn(e, admin);
-                }}
+                disabled={isSubmitting}
+                // onClick={(e) => onAdminLogIn(e, admin)}
               >
                 Admin
               </Button>

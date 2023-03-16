@@ -4,8 +4,5 @@ const Index = {
   Login: {
     auth: UserData,
   },
-  Register: {
-    auth: UserData,
-  },
 };
 export default Index;
