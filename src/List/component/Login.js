@@ -51,6 +51,7 @@ const Login = () => {
         x.username == fetchValue.username && x.password == fetchValue.password
     );
     let mappedData = matchLogin.map((x) => x.username);
+    let objectData = matchLogin.map((x) => x);
     if (matchLogin.length > 0) {
       localStorage.setItem("Login", true);
       navigate("/drawers/payments");
@@ -63,6 +64,9 @@ const Login = () => {
       navigate("/registration");
     }
     localStorage.setItem("mappedData", mappedData);
+    localStorage.setItem("objectData", objectData);
+    const myJSON = JSON.stringify(objectData);
+    localStorage.setItem("testJSON", myJSON);
   };
   const navigate = useNavigate();
 

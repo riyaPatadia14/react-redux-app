@@ -10,27 +10,25 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 // import Paper from "@mui/material/Paper";
-import axios from "axios";
+import { LoginAPI } from "../service/Index";
 import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const [info, setInfo] = useState([]);
   const navigate = useNavigate();
   const getData = () => {
-    axios
-      .get("https://63ea1cc8e0ac9368d64a8759.mockapi.io/Register")
-      .then((response) => setInfo(response.data));
+    LoginAPI()?.then((response) => setInfo(response.data));
     // console.log("info", info);
-
-    navigate("/drawers/Profile");
+    navigate("/drawers/profile");
   };
   useEffect(() => {
     getData();
   }, []);
 
-  let getInfo = localStorage.getItem("loginStorage");
-  let obj = JSON.parse(getInfo);
-  // console.log("obj", obj);
+  // let getInfo = localStorage.getItem("mappedData");
+  let text = localStorage.getItem("testJSON");
+  let obj = JSON.parse(text);
+  console.log("text", obj);
   return (
     <Box sx={{ flexGrow: 1, p: 10 }}>
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -39,10 +37,10 @@ const Profile = () => {
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               {obj.map((x) => (
                 <TableBody>
-                  {/* <TableRow>
+                  <TableRow>
                     <TableCell align="left">Id</TableCell>
                     <TableCell align="center">{x.id}</TableCell>
-                  </TableRow> */}
+                  </TableRow>
                   <TableRow>
                     <TableCell align="left">FullName</TableCell>
                     <TableCell align="center">{x.fullname}</TableCell>

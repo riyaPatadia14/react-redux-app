@@ -4,7 +4,7 @@ import Index from "./Index";
 import BankDetail from "../component/BankDetail";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import BankBalance from "../component/BankBalance";
-import NewCustomer from "../component/NewCustomer";
+import Withdrawal from "../component/Withdrawal";
 import Registration from "../component/Registration";
 import Error from "../component/Error";
 import Protected from "../guard/Protected";
@@ -34,12 +34,12 @@ const AppWrapper = () => {
             <Route path={Index.Error} element={<Error />} />
             <Route element={<Protected />}>
               <Route path={Index.Drawers} element={<Drawers />}>
-                <Route path={Index.Payments} element={<Payments />} />
                 <Route path={Index.Profile} element={<Profile />} />
+                <Route path={Index.Payments} element={<Payments />} />
                 <Route path={Index.PaymentForm} element={<PaymentForm />} />
                 <Route path={Index.BankDetail} element={<BankDetail />} />
                 <Route path={Index.BankBalance} element={<BankBalance />} />
-                <Route path={Index.NewCustomer} element={<NewCustomer />} />
+                <Route path={Index.Withdrawal} element={<Withdrawal />} />
               </Route>
             </Route>
           </Routes>

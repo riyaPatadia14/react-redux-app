@@ -31,7 +31,7 @@ const Payments = () => {
               color="text.secondary"
               gutterBottom
             >
-              Debit Card
+              withdrawal
             </Typography>
             <Typography variant="h5" component="div">
               be{bull}nev{bull}o{bull}lent

@@ -24,8 +24,11 @@ const BankBalance = () => {
 
   let totalAmount = 0;
   const xyz = addData.map(
-    (x) => (totalAmount = parseFloat(totalAmount) + parseFloat(x.BankBalance))
+    (x) => (totalAmount = parseFloat(totalAmount) + parseFloat(x.bankbalnce))
   );
+  console.log("era", editData);
+  console.log("xyz", xyz);
+  console.log("total", totalAmount);
   useEffect(() => {
     setInput(editData);
   }, [editData]);
@@ -65,7 +68,7 @@ const BankBalance = () => {
               <TableBody>
                 {addData?.map((row) => (
                   <TableRow
-                    key={row?.FullName}
+                    key={row?.fullname}
                     sx={{
                       "&:last-child td, &:last-child th": { border: 0 },
                     }}
@@ -73,21 +76,21 @@ const BankBalance = () => {
                     <TableCell component="th" scope="row">
                       {row?.id}
                     </TableCell>
-                    <TableCell align="center">{row?.FullName}</TableCell>
-                    <TableCell align="center">{row?.AccountNo}</TableCell>
+                    <TableCell align="center">{row?.fullname}</TableCell>
+                    <TableCell align="center">{row?.accountno}</TableCell>
                     <TableCell align="center">
                       <TextField
                         hiddenLabel
                         id=""
                         name="BankBalance"
-                        defaultValue={row?.BankBalance}
+                        defaultValue={row?.bankbalance}
                         onChange={onField}
                         variant="filled"
                         size="small"
                       />
                     </TableCell>
-                    <TableCell align="center">{row?.AccountType}</TableCell>
-                    <TableCell align="center">{row?.TransactionType}</TableCell>
+                    <TableCell align="center">{row?.accounttype}</TableCell>
+                    <TableCell align="center">{row?.transactiontype}</TableCell>
                     <TableCell align="center">
                       <UpgradeIcon
                         onClick={() => handleFieldValueUpdate(row)}

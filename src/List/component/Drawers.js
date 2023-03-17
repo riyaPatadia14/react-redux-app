@@ -25,10 +25,26 @@ import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Person4Icon from "@mui/icons-material/Person4";
 import ReceiptIcon from "@mui/icons-material/Receipt";
+import { LoginAPI } from "../service/Index";
+// badge
+import Badge from "@mui/material/Badge";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import Button from "@mui/material/Button";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+import MailIcon from "@mui/icons-material/Mail";
+import Switch from "@mui/material/Switch";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 const drawerWidth = 240;
 const Drawers = () => {
   const [profile, setProfile] = useState([]);
+  const [count, setCount] = React.useState(1);
+  const [invisible, setInvisible] = React.useState(false);
+
+  const handleBadgeVisibility = () => {
+    setInvisible(!invisible);
+  };
   const navigate = useNavigate();
   const LogOut = () => {
     localStorage.clear();
@@ -41,7 +57,7 @@ const Drawers = () => {
       link: "/drawers/bankbalance",
       icon: AccountBalanceIcon,
     },
-    { item: "New Customer", link: "/drawers/newcustomer", icon: Person3Icon },
+    { item: "Withdrawal", link: "/drawers/withdrawal", icon: Person3Icon },
   ];
   const User = [
     { item: "Payment", link: "/drawers/payments", icon: PaymentIcon },
@@ -49,9 +65,7 @@ const Drawers = () => {
     { item: "Payment Form", link: "/drawers/paymentform", icon: ReceiptIcon },
   ];
   const getData = () => {
-    axios
-      .get("https://63ea1cc8e0ac9368d64a8759.mockapi.io/Register")
-      .then((response) => setProfile(response.data));
+    LoginAPI()?.then((response) => setProfile(response.data));
   };
   useEffect(() => {
     getData();

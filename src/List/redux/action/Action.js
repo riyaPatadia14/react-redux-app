@@ -41,3 +41,12 @@ export const onUnCheck = (event, id) => {
     },
   };
 };
+export const onWithdrawal = (w) => {
+  console.log("w", w);
+  return {
+    type: "onWithdrawal",
+    payload: {
+      w,
+    },
+  };
+};

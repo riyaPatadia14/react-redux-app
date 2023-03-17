@@ -1,6 +1,7 @@
 const initialState = {
   BankBalance: [],
   Deposit: [],
+  Withdrawal: [],
   Admin: [
     {
       UserName: "Aparna Soni",
@@ -13,6 +14,15 @@ const initialState = {
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case "onWithdrawal":
+      // withdrawal
+      debugger;
+      const { w } = action.payload;
+      return {
+        ...state,
+        count: [state.count + 1],
+        Withdrawal: [...state.Withdrawal, w],
+      };
     case "onAdmin":
       // admin
       const a = action.payload;
@@ -49,10 +59,13 @@ const reducer = (state = initialState, action) => {
     case "onAccept":
       // update
       // debugger;
-      const id = action.payload.id;
-      const onChange = state.BankBalance.map((x) => {
+      const id = action.payload;
+      console.log("id", id);
+      const onChange = state?.BankBalance.map((x) => {
+        console.log("action.payload.id", action.payload.id);
+        // debugger;
         if (x.id == action.payload.id) {
-          // console.log("x = payload", (x = action.payload));
+          console.log("x = payload", (x = action.payload));
           return (x = action.payload);
         }
         return x;

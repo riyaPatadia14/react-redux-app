@@ -20,19 +20,17 @@ import Checkbox from "@mui/material/Checkbox";
 const BankDetail = () => {
   const [rows, setRows] = useState([]);
   const dispatch = useDispatch();
-  // get api
   const handleGetRequest = () => {
     setTimeout(() => {
       LoginAPI()?.then((response) => {
         setRows(response.data);
       });
     }, 500);
-  }
+  };
   useEffect(() => {
     handleGetRequest();
   }, []);
   const alreadyChecked = useSelector((state) => state?.BankBalance);
-  // handleCheckEvent
   const handleCheckEvent = (event, row) => {
     const checked = event.target.checked;
     const found = alreadyChecked.filter((x) => x.id === row.id);
@@ -45,7 +43,6 @@ const BankDetail = () => {
       toast.error("Already exists");
     }
   };
-  // checkbox
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
   return (
     <>
