@@ -2,7 +2,7 @@ const LoginSchema = (values) => {
   const errors = {};
   if (!values.username) {
     errors.username = "Required";
-  } else if (values.username.length > 15) {
+  } else if (values.username.length > 50) {
     errors.username = "Invalid name";
   }
   if (!values.password) {

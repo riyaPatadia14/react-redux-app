@@ -26,9 +26,9 @@ const BankBalance = () => {
   const xyz = addData.map(
     (x) => (totalAmount = parseFloat(totalAmount) + parseFloat(x.bankbalnce))
   );
+  console.log("total", totalAmount);
   console.log("era", editData);
   console.log("xyz", xyz);
-  console.log("total", totalAmount);
   useEffect(() => {
     setInput(editData);
   }, [editData]);

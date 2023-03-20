@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Outlet } from "react-router-dom";
 import Person3Icon from "@mui/icons-material/Person3";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
@@ -26,15 +25,16 @@ import IconButton from "@mui/material/IconButton";
 import Person4Icon from "@mui/icons-material/Person4";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import { LoginAPI } from "../service/Index";
-// badge
-import Badge from "@mui/material/Badge";
-import ButtonGroup from "@mui/material/ButtonGroup";
-import Button from "@mui/material/Button";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
-import MailIcon from "@mui/icons-material/Mail";
-import Switch from "@mui/material/Switch";
-import FormControlLabel from "@mui/material/FormControlLabel";
+import { LogOut } from "../utils/Index";
+// import { useAuth } from "../utils/auth";
+// import Badge from "@mui/material/Badge";
+// import ButtonGroup from "@mui/material/ButtonGroup";
+// import Button from "@mui/material/Button";
+// import AddIcon from "@mui/icons-material/Add";
+// import RemoveIcon from "@mui/icons-material/Remove";
+// import MailIcon from "@mui/icons-material/Mail";
+// import Switch from "@mui/material/Switch";
+// import FormControlLabel from "@mui/material/FormControlLabel";
 
 const drawerWidth = 240;
 const Drawers = () => {
@@ -45,11 +45,13 @@ const Drawers = () => {
   const handleBadgeVisibility = () => {
     setInvisible(!invisible);
   };
+
   const navigate = useNavigate();
-  const LogOut = () => {
-    localStorage.clear();
+  const handelLogOut = () => {
+    LogOut();
     navigate("/login");
   };
+
   const Admin = [
     { item: "Bank Details", link: "/drawers/bankdetail", icon: TableViewIcon },
     {
@@ -64,12 +66,6 @@ const Drawers = () => {
     { item: "Profile", link: "/drawers/profile", icon: Person4Icon },
     { item: "Payment Form", link: "/drawers/paymentform", icon: ReceiptIcon },
   ];
-  const getData = () => {
-    LoginAPI()?.then((response) => setProfile(response.data));
-  };
-  useEffect(() => {
-    getData();
-  }, []);
   const Uname = localStorage.getItem("mappedData");
   const Adminy = localStorage.getItem("Admin");
 
@@ -92,7 +88,7 @@ const Drawers = () => {
                   {!Uname && Adminy}
                 </div>
                 <div style={{ textAlign: "center", paddingLeft: "2%" }}>
-                  <Fingerprint onClick={LogOut} />
+                  <Fingerprint onClick={handelLogOut} />
                 </div>
               </Toolbar>
             </AppBar>

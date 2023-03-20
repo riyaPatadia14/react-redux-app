@@ -16,7 +16,7 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "onWithdrawal":
       // withdrawal
-      debugger;
+      // debugger;
       const { w } = action.payload;
       return {
         ...state,

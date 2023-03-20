@@ -5,8 +5,25 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import store from "./store";
+import axios from "axios";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+axios.interceptors.request.use(
+  function (config) {
+    config.headers.test = "Riya ";
+    return config;
+  },
+  null,
+  { synchronous: true }
+);
+axios.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  function (error) {
+    return Promise.reject(error);
+  }
+);
 root.render(
   <React.StrictMode>
     <Provider store={store}>

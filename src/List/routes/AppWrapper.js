@@ -1,5 +1,5 @@
-import React from "react";
-import Login from "../component/Login";
+import React, { Suspense } from "react";
+// import Login from "../component/Login";
 import Index from "./Index";
 import BankDetail from "../component/BankDetail";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -16,7 +16,8 @@ import PaymentForm from "../component/PaymentForm";
 import Roles from "./Roles";
 import PublicElement from "./PublicElement";
 import AdminElement from "./AdminElement";
-
+import APIInter from "../component/APIInter";
+const Login = React.lazy(() => import("../component/Login"));
 const AppWrapper = () => {
   {
     console.log("Roles", Roles);
@@ -28,6 +29,7 @@ const AppWrapper = () => {
       <BrowserRouter>
         <main>
           <Routes>
+            <Route path="apiiter" element={<APIInter />} />
             <Route path={Index.Login} index element={<Login />} />
             <Route path={Index.AdminLogin} element={<AdminLogin />} />
             <Route path={Index.Registration} element={<Registration />} />

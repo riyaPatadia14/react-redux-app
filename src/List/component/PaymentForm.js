@@ -13,7 +13,7 @@ const PaymentForm = () => {
   // const [withdrawal, setWithdrawal] = useState([]);
   const dispatch = useDispatch();
   const handleOnWithdrawal = (e) => {
-    debugger;
+    // debugger;
     dispatch(onWithdrawal(e));
     console.log("e", e);
     // console.log("submit event", dispatch(onWithdrawal(e)));
@@ -45,7 +45,6 @@ const PaymentForm = () => {
           handleBlur,
           handleSubmit,
           isSubmitting,
-          /* and other goodies */
         }) => (
           <Box
             onSubmit={handleSubmit}

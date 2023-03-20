@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Table from "@mui/material/Table";
@@ -12,24 +12,24 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { LoginAPI } from "../service/Index";
+import { DetailAPI } from "../service/Index";
 import { useDispatch, useSelector } from "react-redux";
 import { onAppend, onUnCheck, onCheck } from "../redux/action/Action";
 import Checkbox from "@mui/material/Checkbox";
 
 const BankDetail = () => {
+  const checkboxRef = useRef();
+
   const [rows, setRows] = useState([]);
   const dispatch = useDispatch();
   const handleGetRequest = () => {
     setTimeout(() => {
-      LoginAPI()?.then((response) => {
+      DetailAPI()?.then((response) => {
         setRows(response.data);
       });
     }, 500);
   };
-  useEffect(() => {
-    handleGetRequest();
-  }, []);
+  const MemoCount = useMemo(() => handleGetRequest(), []);
   const alreadyChecked = useSelector((state) => state?.BankBalance);
   const handleCheckEvent = (event, row) => {
     const checked = event.target.checked;
@@ -47,6 +47,7 @@ const BankDetail = () => {
   return (
     <>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+        {MemoCount}
         <Toolbar />
         <div>
           <ToastContainer />
@@ -83,6 +84,7 @@ const BankDetail = () => {
                         <Checkbox
                           name="checked"
                           {...label}
+                          ref={checkboxRef}
                           // style={{
                           //   color:
                           //     checkboxColor &&
@@ -98,14 +100,14 @@ const BankDetail = () => {
                       <TableCell component="th" scope="row" name="id">
                         {row?.id}
                       </TableCell>
-                      <TableCell align="center">{row?.fullname}</TableCell>
-                      <TableCell align="center">{row?.accountno}</TableCell>
-                      <TableCell align="center">{row?.bankbalance}</TableCell>
-                      <TableCell align="center">{row?.accounttype}</TableCell>
+                      <TableCell align="center">{row?.FullName}</TableCell>
+                      <TableCell align="center">{row?.AccountNo}</TableCell>
+                      <TableCell align="center">{row?.BankBalance}</TableCell>
+                      <TableCell align="center">{row?.AccountType}</TableCell>
                       <TableCell align="center">
-                        {row?.transactiontype}
+                        {row?.TransactionType}
                       </TableCell>
-                      <TableCell align="center">{row?.customerid}</TableCell>
+                      <TableCell align="center">{row?.CustomerId}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

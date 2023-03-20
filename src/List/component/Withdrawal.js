@@ -20,18 +20,21 @@ import { onWithdrawal } from "../redux/action/Action";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 // select
-// import InputLabel from "@mui/material/InputLabel";
-// import FormControl from "@mui/material/FormControl";
-// import Select from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 const Withdrawal = () => {
   // useState
-
+  const [secondary, setSecondary] = useState(null);
   const [age, setAge] = React.useState("");
   const handleChange = (event) => {
     setAge(event.target.value);
   };
-  const dispatch = useDispatch();
+  const SeondaryButtton = (event) => {
+    setSecondary(event.currentTarget);
+  };
+  // const dispatch = useDispatch();
   // const handleFieldValueUpdate = (e) => {
   //   dispatch(onWithdrawal(input, e));
   // };
@@ -67,7 +70,7 @@ const Withdrawal = () => {
             "aria-labelledby": "basic-button",
           }}
         >
-          <MenuItem onClick={handleClose}>
+          <MenuItem onClick={SeondaryButtton}>
             <Chip label="updated" color="success" />
           </MenuItem>
           <MenuItem onClick={handleClose}>
@@ -96,13 +99,13 @@ const Withdrawal = () => {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Withdrawal Id</TableCell>
+              <TableCell align="center">Withdrawal Id</TableCell>
               <TableCell align="center">PayeeName</TableCell>
               <TableCell align="center">Account No</TableCell>
               <TableCell align="center">Bank Balance</TableCell>
               <TableCell align="center">Remark</TableCell>
               <TableCell align="center">Status</TableCell>
-              {/* <TableCell align="center">Change</TableCell> */}
+              <TableCell align="center">Change</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -111,7 +114,7 @@ const Withdrawal = () => {
                 key={row.fullname}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell component="th" scope="row">
+                <TableCell component="th" scope="row" align="center">
                   {row.customerid}
                 </TableCell>
                 <TableCell align="center">{row.payeename}</TableCell>
@@ -122,7 +125,6 @@ const Withdrawal = () => {
                   <Box sx={{ position: "relative", left: "50%", top: "50%" }}>
                     <Stack direction="row" spacing={1}>
                       <Chip
-                        fullWidth
                         label="primary"
                         color="primary"
                         aria-controls={open ? "basic-menu" : undefined}
@@ -133,7 +135,7 @@ const Withdrawal = () => {
                     </Stack>
                   </Box>
                 </TableCell>
-                {/* <TableCell align="center">
+                <TableCell align="center">
                   <FormControl>
                     <InputLabel id="demo-simple-select-label">Age</InputLabel>
                     <Select
@@ -148,7 +150,7 @@ const Withdrawal = () => {
                       <MenuItem value={30}>cancelled</MenuItem>
                     </Select>
                   </FormControl>
-                </TableCell> */}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

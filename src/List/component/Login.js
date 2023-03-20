@@ -34,41 +34,42 @@ const Login = () => {
     event.preventDefault();
   };
 
-  const getData = () => {
-    LoginAPI()?.then((response) => setReg(response.data));
-  };
-  useEffect(() => {
-    getData();
-  }, []);
+  // const getData = () => {
+  //   LoginAPI()?.then((response) => setReg(response.data));
+  // };
+  // useEffect(() => {
+  //   getData();
+  // }, []);
 
   const onAdminClick = () => {
     navigate("/adminlogin");
   };
-
-  const onLogin = (fetchValue) => {
-    let matchLogin = reg?.filter(
-      (x) =>
-        x.username == fetchValue.username && x.password == fetchValue.password
-    );
-    let mappedData = matchLogin.map((x) => x.username);
-    let objectData = matchLogin.map((x) => x);
-    if (matchLogin.length > 0) {
-      localStorage.setItem("Login", true);
-      navigate("/drawers/payments");
-    } else if (
-      !matchLogin.length > 0 ||
-      !matchLogin.length == "" ||
-      !matchLogin.length == 0
-    ) {
-      localStorage.setItem("Login", false);
-      navigate("/registration");
-    }
-    localStorage.setItem("mappedData", mappedData);
-    localStorage.setItem("objectData", objectData);
-    const myJSON = JSON.stringify(objectData);
-    localStorage.setItem("testJSON", myJSON);
-  };
   const navigate = useNavigate();
+  const onLogin = (fetchValue) => {
+    console.log("fetchValue", fetchValue.username);
+    console.log("fetchValue", fetchValue);
+    LoginAPI(fetchValue).then((x) => {
+      console.log("x", x.config.data);
+      if (x.status === 200) {
+        localStorage.setItem("Login", true);
+        navigate("/drawers/payments");
+      }
+    });
+    //   let mappedData = matchLogin.map((x) => x.username);
+    //   if (matchLogin.length > 0) {
+    //   } else if (
+    //     !matchLogin.length > 0 ||
+    //     !matchLogin.length == "" ||
+    //     !matchLogin.length == 0
+    //   ) {
+    //     localStorage.setItem("Login", false);
+    //     navigate("/registration");
+    //   }
+    //   localStorage.setItem("mappedData", mappedData);
+    //   localStorage.setItem("objectData", objectData);
+    //   const myJSON = JSON.stringify(objectData);
+    //   localStorage.setItem("testJSON", myJSON);
+  };
 
   // let login = localStorage.getItem("Login");
   // if (login) {
@@ -83,7 +84,7 @@ const Login = () => {
         onSubmit={(val) => {
           // console.log(val);
           // setTimeout(() => {
-          //   alert(JSON.stringify(values, null, 2));
+          alert(JSON.stringify(val, null, 2));
           onLogin(val);
           // setSubmitting(false);
           // }, 400);
@@ -114,18 +115,14 @@ const Login = () => {
               autoComplete="off"
             >
               <h3 style={{ textAlign: "center" }}>Login</h3>
-              <FormControl
-                variant="standard"
-                sx={{ m: 1, mt: 3, width: "45ch" }}
-              >
+              <FormControl sx={{ m: 1, width: "45ch" }} variant="standard">
                 <Input
-                  id="username"
                   placeholder="UserName"
+                  id="standard-adornment-username"
                   name="username"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.username}
-                  aria-describedby="standard-weight-helper-text"
                 />
               </FormControl>
               {errors.username && touched.username && errors.username}
